@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>標案、計畫書達人</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght @400;500;700&display=swap" rel="stylesheet">
+    <!-- Libraries for saving as Word document -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- Replaced html-docx-js with the more robust 'docx' library -->
+    <script src="https://unpkg.com/docx @8.5.0/build/index.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f8fafc; /* bg-slate-50 */
+        }
+        .nine-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .grid-cell {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0; /* border-slate-200 */
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 200px;
+        }
+        .keyword-input {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+            border: 1px solid #cbd5e1; /* border-slate-300 */
+            padding: 1rem;
+            font-size: 1rem;
+            text-align: center;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .keyword-input:focus {
+            outline: none;
+            border-color: #4f46e5; /* border-indigo-600 */
+            box-shadow: 0 0 0 1px #4f46e5;
+        }
+        .keyword-input::placeholder {
+            color: #94a3b8; /* text-slate-400 */
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .keyword-input.center {
+            background-color: #eef2ff; /* bg-indigo-50 */
+            font-weight: 700;
+            color: #3730a3; /* text-indigo-800 */
+            border-color: #a5b4fc; /* border-indigo-300 */
+        }
+        .action-btn {
+            background-color: #4f46e5; /* bg-indigo-600 */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .action-btn:hover {
+            background-color: #4338ca; /* bg-indigo-700 */
+            transform: translateY(-2px);
+        }
+        .action-btn:active {
+            transform: translateY(0px);
+        }
+        .action-btn:disabled {
+            background-color: #94a3b8; /* bg-slate-400 */
+            cursor: not-allowed;
+            transform: translateY(0px);
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            margin-right: 0.5rem;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #feedback-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1e293b; /* bg-slate-800 */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s, background-color 0.3s;
+            pointer-events: none;
+        }
+        .result-output-area {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0; /* border-slate-200 */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            min-height: 50vh;
+            line-height: 1.7;
+            color: #334155; /* text-slate-700 */
+        }
+        .result-output-area p {
+            margin-bottom: 0.5rem; /* Add some space between paragraphs */
+        }
+        .secondary-btn {
+            background-color: #e2e8f0; /* bg-slate-200 */
+            color: #475569; /* text-slate-600 */
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .secondary-btn:hover {
+            background-color: #cbd5e1; /* bg-slate-300 */
+        }
+        @media (max-width: 768px) {
+            .nine-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div class="container mx-auto p-4 md:px-8">
+        
+        <!-- Page 1: Input Page -->
+        <div id="page-input" class="page-content">
+            <header class="text-center pt-8 pb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-800">標案、計畫書達人</h1>
+            </header>
+
+            <main class="bg-white p-6 md:p-8 rounded-xl shadow-xl border border-slate-200">
+                <div class="mb-8">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+                        <h3 class="text-xl font-semibold text-slate-700">1. 輸入基礎資訊</h3>
+                        <div class="flex gap-2 flex-shrink-0">
+                           <button id="load-example-btn" class="text-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-semibold py-2 px-4 rounded-md transition-colors" onclick="fillExample()">載入隨機範例</button>
+                           <button class="text-sm secondary-btn py-2 px-4 rounded-md" onclick="clearKeywords()">清空欄位</button>
+                        </div>
+                    </div>
+                    <div class="nine-grid">
+                        <textarea id="kwA" class="keyword-input" placeholder="A. 熟悉(企劃)目標&#10;專案要解決的問題"></textarea>
+                        <textarea id="kwB" class="keyword-input" placeholder="B. 列出(企劃)要素&#10;核心技術、方法"></textarea>
+                        <textarea id="kwC" class="keyword-input" placeholder="C. 專案管理-資源&#10;人力、預算"></textarea>
+                        <textarea id="kwD" class="keyword-input" placeholder="D. 專案管理-期程&#10;各階段時程"></textarea>
+                        <textarea id="kw-center" class="keyword-input center" placeholder="題目"></textarea>
+                        <textarea id="kwE" class="keyword-input" placeholder="E. 關鍵核心&#10;獨特價值、亮點"></textarea>
+                        <textarea id="kwF" class="keyword-input" placeholder="F. 服務價值交付&#10;最終產出物"></textarea>
+                        <textarea id="kwG" class="keyword-input" placeholder="G. 提案&#10;如何呈現"></textarea>
+                        <textarea id="kwH" class="keyword-input" placeholder="H. 風險控管&#10;備用計畫"></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <h3 class="text-xl font-semibold mb-4 text-slate-700 text-center">2. 選擇生成項目</h3>
+                    <p class="text-sm text-slate-500 mb-6 text-center">請先填寫上方九宮格，再點擊下方按鈕以生成對應的架構。</p>
+                    <div id="action-buttons" class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                        <button id="btn-plan" class="action-btn" onclick="generateStructure('計畫書')"><span>生成計畫書架構</span></button>
+                        <button id="btn-bid" class="action-btn" onclick="generateStructure('標案')"><span>生成標案架構</span></button>
+                        <button id="btn-proposal" class="action-btn" onclick="generateStructure('簡報')"><span>生成簡報架構</span></button>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Page 2: Result Page -->
+        <div id="page-result" class="page-content hidden">
+             <header class="text-center pt-8 pb-8">
+                <h1 id="result-title" class="text-3xl md:text-4xl font-bold text-slate-800">生成結果</h1>
+            </header>
+            <main class="bg-white p-6 md:p-8 rounded-xl shadow-xl border border-slate-200 relative">
+                <div class="flex justify-between items-center mb-6">
+                    <button class="secondary-btn py-2 px-4 rounded-md" onclick="showPage('page-input')">&larr; 返回修改</button>
+                    <div class="flex gap-2">
+                        <button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition-colors" onclick="saveAsWord()">存為 Word</button>
+                        <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md transition-colors" onclick="copyResult()">複製結果</button>
+                    </div>
+                </div>
+                <div id="result-output" class="result-output-area"></div>
+            </main>
+        </div>
+        
+        <footer class="mt-12 py-8 border-t border-slate-200">
+            <div class="text-center text-sm text-slate-500">
+                <p>設計師：阿渡</p>
+            </div>
+        </footer>
+    </div>
+    
+    <div id="feedback-banner" class="hidden">已複製！</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DOM Element References ---
+            const pages = document.querySelectorAll('.page-content');
+            const kwCenterInput = document.getElementById('kw-center');
+            const resultTitle = document.getElementById('result-title');
+            const resultOutput = document.getElementById('result-output');
+            const loadExampleBtn = document.getElementById('load-example-btn');
+            const feedbackBanner = document.getElementById('feedback-banner');
+
+            // --- Data ---
+            const examples = [
+                // Original 10
+                { center: "智慧城市 - AI停車引導系統標案", A: "解決市中心假日停車位難尋、交通壅塞問題，提升市民生活品質。", B: "運用AI影像辨識、IoT感測器、雲端數據分析技術。", C: "專案經理1名, AI工程師2名, 前後端工程師各1名, UI/UX設計師1名。預算300萬。", D: "第一階段(3個月):硬體建置與測試。第二階段(3個月):軟體開發與整合。第三階段(2個月):壓力測試與上線。", E: "即時車位資訊準確率達95%以上，駕駛平均節省15分鐘找車位時間。", F: "提供市民免費App、整合至市府官方Line帳號、提供交通局後台數據儀表板。", G: "透過數據視覺化簡報，展示系統效益與市民便利性，並進行現場Demo。", H: "備用電源方案、離線地圖快取機制、定期資安演練。" },
+                { center: "偏鄉學童線上英語學習平台建置計畫", A: "縮短城鄉教育資源差距，提供偏鄉學童免費、優質的英語學習環境。", B: "遊戲化學習介面、AI口說對練、個人化學習進度追蹤、VR情境教室。", C: "教育部專案補助款200萬，與大學語言中心合作開發教材，招募線上志工老師。", D: "第一年: 平台開發與教材建置。第二年: 招募500名學童進行試辦。第三年: 全面推廣至全國偏鄉小學。", E: "台灣第一個結合VR與AI的偏鄉英語學習公益平台，創造沉浸式學習體驗。", F: "Web平台、iOS/Android App、期末學習成果報告、教師研習營。", G: "發布新聞稿，邀請媒體採訪，舉辦成果發表會，呈現學童學習前後的差異。", H: "網路頻寬不足問題，可開發離線學習包。學生學習動機低落，可透過點數獎勵機制維持。" },
+                { center: "企業內部永續發展(ESG)推動與顧問服務", A: "協助企業符合金管會2025年永續發展路徑圖，提升ESG評級，吸引外資投入。", B: "導入AI碳盤查系統、建立綠色供應鏈管理平台、客製化ESG內訓課程。", C: "ESG顧問團隊(5人)、軟體工程師(3人)，專案總經費150萬。", D: "第一個月: 企業碳盤查與訪談。第二、三個月: 導入系統與供應鏈盤點。第四個月: 人員內訓與報告撰寫。", E: "不僅提供顧問報告，更提供數位化工具，讓ESG績效可被持續追蹤與管理。", F: "一份完整的企業永續報告書、一套碳盤查管理系統、10小時的客製化內訓課程。", G: "向董事會進行專案簡報，強調ESG對企業品牌價值與長期獲利的正面影響。", H: "法規變動風險，顧問團隊需持續追蹤國內外ESG趨勢。數據收集不易，需建立有效數據治理框架。" },
+                { center: "AI智慧農業解決方案", A: "解決傳統農業面臨的勞動力老化、氣候變遷導致產量不穩定的問題。", B: "整合無人機空拍、物聯網(IoT)土壤感測器、AI影像辨識病蟲害、自動化灌溉系統。", C: "農業專家2名、AI工程師3名、硬體工程師2名。第一期開發預算800萬。", D: "第一階段(6個月): 感測器與無人機硬體整合測試。第二階段(6個月): AI模型開發與訓練。第三階段(4個月): 示範農場實地驗證與優化。", E: "透過AI精準施肥與灌溉，預計可節省30%的水資源與20%的肥料成本，並提升15%的產量。", F: "一套完整的智慧農業管理SaaS平台，包含App與數據分析後台，並提供農民顧問服務。", G: "向農委會、大型農業企業進行提案，展示可量化的效益數據與實地測試影片。", H: "極端氣候可能影響感測器準確性，需建立氣候模型進行數據校正。農民對新科技的接受度，需提供完整的教育訓練與初期優惠。" },
+                { center: "樂齡族群健康促進社群平台", A: "應對高齡化社會，提供銀髮族一個專屬的健康資訊、社交互動與活動參與平台，降低孤獨感，促進活躍老化。", B: "AI健康管家(用藥提醒、運動建議)、線上健康講座直播、線下社團活動媒合功能、簡易操作的UI/UX設計。", C: "社工師、物理治療師、App開發團隊(4人)、行銷企劃2名。預計尋求衛福部社家署補助及企業贊助。", D: "九個月內完成App開發與上線。第一年目標與50個社區關懷據點合作，會員數達1萬人。", E: "市面上唯一深度結合線上AI健康管理與線下實體社群活動的整合平台，創造O2O樂齡生活圈。", F: "手機App（iOS/Android）、網站後台、定期線下聯誼茶會、年度健康樂活成果展。", G: "舉辦產品發表會，邀請銀髮網紅與媒體體驗，並與長照機構、社區大學合作推廣。", H: "長者對3C產品的學習曲線，需設計極簡化介面、放大字體，並提供電話客服與專人教學影片。" },
+                { center: "區塊鏈食品履歷溯源系統", A: "解決近年頻傳的食安問題，重建消費者對食品供應鏈的信任度。", B: "利用區塊鏈去中心化、不可竄改的特性，紀錄從產地、加工、物流到銷售的每一環節資訊。", C: "區塊鏈工程師3名、食品安全專家1名、供應鏈管理顧問1名。", D: "四個月內完成系統原型開發，並與一家有機連鎖超市合作導入試點計畫。", E: "消費者用手機掃描QR Code即可看到完整且無法被竄改的生產履歷，資訊透明度最高。", F: "供應鏈管理後台、消費者查詢App、提供給合作廠商的API介接服務。", G: "參與國際食品科技展，向國內外食品大廠與大型通路商展示系統的公信力與商業價值。", H: "供應鏈上下游廠商的配合意願與資料上鏈的正確性，初期需提供導入獎勵與嚴格的資料稽核機制。" },
+                { center: "AI輔助公文寫作系統", A: "解決基層公務員撰寫公文耗時、格式易錯、需頻繁查找過往案例的痛點，提升行政效率。", B: "基於大量政府公開公文資料訓練的LLM模型，能自動生成符合機關格式的函、稿、書函等草稿，並提供相似案例推薦。", C: "AI工程師(專精NLP)3名、熟悉政府文書作業的顧問2名。預計與人事行政總處合作開發。", D: "一年內完成模型訓練與系統開發。之後與三個中央部會進行為期半年的導入測試。", E: "平均可節省公務員50%的公文撰寫時間，並大幅降低80%的格式與用語錯誤率，讓同仁能更專注於業務本身。", F: "一套可安裝於機關內網、符合資安規範的軟體系統，並提供線上教學與客服。", G: "向各級政府機關進行巡迴說明會與系統實機展示，強調其對行政效率的提升。", H: "特定機關的特殊格式或內部用語要求，需保留使用者自訂範本與用語庫的彈性。資料庫更新問題，需建立定期更新模型機制。" },
+                { center: "在地文化特色小旅行媒合平台", A: "解決深度自由行旅客資訊破碎、難以規劃的問題，同時為在地文史工作者、達人創造新的收入來源。", B: "媒合在地達人與旅客，提供獨一無二的文化體驗行程。並設有評價系統、安全支付機制。", C: "旅遊企劃2名、網站與App工程師3名、行銷專家2名。", D: "半年內平台網站與App上線。第一年目標媒合全台100位在地達人，完成500筆交易。", E: "主打「非觀光客」的私房行程，讓旅客能體驗最道地的在地生活與文化，而非走馬看花。", F: "網站與App平台、在地達人培訓課程、為旅客投保旅遊意外險。", G: "與知名旅遊KOL、Youtuber合作，透過社群媒體創造口碑行銷，並參與國內旅展。", H: "行程品質控管不易，需建立旅客評價回饋機制與達人退場機制。旅客安全問題，需嚴格審核達人身份並提供保險。" },
+                { center: "元宇宙虛擬展覽館建置案", A: "突破實體展覽的時空限制，為博物館、美術館或企業打造一個可永久營運、全球觸及的沉浸式虛擬間。", B: "使用3D建模、VR/AR技術、數位孿生(Digital Twin)概念，打造高擬真度的虛擬空間與展品互動體驗。", C: "3D美術設計師3名、Unity/Unreal工程師3名、專案經理1名。依展館規模報價，基礎方案200萬起。", D: "三個月完成空間建模與基礎功能開發。之後兩個月進行展品數位化與互動功能客製化。", E: "提供超越實體觀展的體驗，如點擊展品觀看360度模型、與歷史人物AI導覽員互動等。", F: "一個可透過網頁瀏覽器或VR頭盔進入的虛擬展覽館、後台展品管理系統、觀展數據分析報告。", G: "向國內外大型博物館、美術館及有品牌展示需求的企業提案，展示Demo作品與互動可能性。", H: "使用者硬體設備門檻高(特別是VR)，需確保網頁版瀏覽的流暢度。內容更新成本，需提供易於操作的後台讓客戶自行更換展品。" },
+                { center: "金融科技(FinTech)智能理財APP開發", A: "協助小資族與年輕世代克服理財資訊焦慮，以低門檻、自動化的方式開始投資，實現普惠金融。", B: "運用AI演算法提供個人化投資組合建議(Robo-Advisor)、定期定額自動下單、視覺化資產報告、金融知識圖文懶人包。", C: "金融分析師2名、AI/數據工程師3名、App工程師4名、資安專家1名。需申請金管會金融沙盒或與金融機構合作。", D: "一年完成App開發與監管機構核准。上線後第一年目標用戶數10萬人，管理資產規模(AUM)達5億。", E: "極低的投資門檻(如1000元即可開始)，並以遊戲化任務引導使用者學習理財知識，兼具投資與教育功能。", F: "iOS/Android App、網站使用者後台、每月市場分析報告、線上理財諮詢服務。", G: "與大學生理財社團、財經KOL合作，舉辦線上理財講座，並透過數位廣告精準投放目標客群。", H: "市場劇烈波動可能導致使用者恐慌贖回，需加強使用者心理建設與風險溝通。資安問題是最高風險，需投入大量資源建構防護網並通過第三方認證。" },
+                // New 40
+                { center: "電商平台導入AI個人化推薦引擎專案", A: "提升使用者購物體驗，增加客單價與回購率。", B: "協同過濾演算法、使用者行為追蹤、深度學習商品關聯性分析。", C: "數據科學家2名，後端工程師2名，前端1名。預算250萬。", D: "3個月完成演算法開發與測試，1個月進行A/B測試，2個月全面導入。", E: "即時動態推薦，非僅基於歷史購買，更能預測潛在興趣，推薦準確率提升40%。", F: "網站首頁個人化區塊、商品頁面『猜你喜歡』功能、EDM個人化商品推薦。", G: "向高層簡報，以A/B測試數據證明導入後的營收增長(ROI)。", H: "冷啟動問題(新使用者無資料)，初期以熱門商品推薦應對。資料稀疏性問題，採用模型融合策略。" },
+                { center: "建置高齡友善遠距醫療諮詢與慢性病管理平台", A: "解決偏鄉或行動不便長者就醫困難問題，提供即時健康諮詢。", B: "WebRTC視訊技術、HIPAA相容雲端架構、穿戴式裝置(血壓計)數據串接。", C: "合作家醫科醫師10名、護理師5名、系統開發團隊5人。", D: "6個月平台開發，2個月與醫療院所合作試營運，3個月正式上線推廣。", E: "整合健保卡讀取與電子病歷，提供一站式服務，非單純視訊通話。", F: "Web/App平台、個人健康數據儀表板、家屬連動通知功能。", G: "向區域醫院、長照機構提案，說明如何減輕門診壓力並提升照護品質。", H: "法規符合性風險，需有法律顧問審核流程。網路穩定性，開發離線數據暫存上傳功能。" },
+                { center: "古蹟園區沉浸式AR歷史導覽App開發案", A: "提升遊客參觀體驗，讓歷史不再枯燥，增加園區吸引力。", B: "ARKit/ARCore、3D模型重建、GPS與Beacon室內定位技術。", C: "文史顧問1名、3D美術2名、AR工程師2名、App開發2名。", D: "2個月文史資料彙整，4個月3D模型與AR功能開發，2個月實地場域測試。", E: "透過AR讓歷史人物現身說法，或重現已毀損的建築樣貌，創造獨特情感連結。", F: "iOS/Android App，包含AR導覽模式、歷史小知識問答、社群分享功能。", G: "向文化局、觀光局及園區管理處提案，現場以平板展示AR互動效果。", H: "戶外GPS訊號不穩，以藍芽Beacon作為備用定位方案。手機耗電問題，優化App效能並建議遊客自備行動電源。" },
+                { center: "開發一款以理財為主題的青少年教育手遊", A: "以遊戲方式教導青少年儲蓄、投資、風險管理等重要財金素養。", B: "遊戲化任務系統、模擬股市機制、社群好友互動功能。", C: "遊戲企劃1名、程式設計師2名、美術設計師2名、財金顧問1名。", D: "4個月核心玩法開發，3個月內容填充與數值平衡，2個月封測與優化。", E: "將複雜的財金知識轉化為有趣、易懂的遊戲挑戰，寓教於樂。", F: "免費遊玩，內含部分外觀付費項目的手機遊戲App。", G: "與金管會、金融機構或校園理財社團合作，共同推廣。", H: "遊戲成癮性問題，設計每日遊玩時間提醒。付費設計爭議，確保不影響核心學習體驗(No Pay-to-Win)。" },
+                { center: "導入AI輔助招募系統以提升人資作業效率", A: "解決人資部門處理大量履歷的效率瓶頸，加速招募流程。", B: "自然語言處理(NLP)進行履歷關鍵字萃取與比對、自動化郵件排程API。", C: "導入SaaS服務，專案負責人1名，與IT部門協作。", D: "1個月需求訪談與廠商評選，2個月系統導入與客製化，1個月教育訓練與上線。", E: "不僅篩選履歷，更能自動與應徵者信件溝通、預約面試時間，大幅減少人工作業。", F: "一套整合至現有人資系統的招募管理平台。", G: "向管理層報告，以數據呈現導入後預計可節省的工時與縮短的招募週期。", H: "AI偏見風險，需定期審核篩選結果，避免性別、學歷等歧視。應徵者接受度，確保溝通郵件用語專業有禮。" },
+                { center: "智慧物流中心倉儲機器人(AMR)導入計畫", A: "解決倉儲人力短缺問題，提升揀貨效率與準確率。", B: "自主移動機器人(AMR)、倉儲管理系統(WMS)整合、5G專網通訊。", C: "物流顧問、系統整合商、現場維運人員。", D: "3個月場域規劃與模擬，3個月硬體建置與系統整合，2個月壓力測試與人員訓練。", E: "人機協作模式，由機器人將貨架運至揀貨員面前，揀貨效率提升3倍。", F: "AMR機器人隊列、中控調度系統、戰情室數據儀表板。", G: "向大型電商、零售通路業者提案，展示投資回報率(ROI)分析。", H: "機器人故障，需有備援機器與緊急應變計畫。網路中斷，確保機器人有基礎的離線運作能力。" },
+                { center: "網紅直播帶貨數據分析與效益優化平台", A: "協助品牌主科學化評估網紅合作效益，最大化行銷預算成效。", B: "即時彈幕分析、聲量監測、轉換率追蹤、粉絲畫像分析。", C: "數據分析師、爬蟲工程師、前後端工程師。", D: "4個月完成數據收集與分析模型建置，2個月開發SaaS平台介面。", E: "提供跨平台、標準化的網紅效益指標(不僅是觀看數)，讓品牌能進行同級比較。", F: "一個SaaS訂閱制平台，提供品牌主與行銷公司使用。", G: "舉辦線上發表會，邀請行銷界KOL分享使用心得，並提供早期優惠方案。", H: "各直播平台API變動，需持續維護爬蟲程式。網紅數據造假，需開發異常流量偵測機制。" },
+                { center: "AIoT智慧家庭能源管理系統", A: "幫助家庭用戶節省電費，並為電力公司提供用戶端需量反應能力。", B: "智慧插座、物聯網(IoT)家電、AI用電行為分析與預測、App遠端遙控。", C: "硬體工程師、韌體工程師、雲端與App開發團隊。", D: "6個月硬體開發與安規認證，4個月軟體平台開發。", E: "AI能自動在離峰電價時段啟動高耗能家電，並學習使用者習慣，提供個人化節能建議。", F: "智慧插座套組、手機App、每月用電分析報告。", G: "與建商、室內設計師合作，作為智慧家庭方案的一環。與電力公司洽談需量反應合作計畫。", H: "家庭網路安全，所有通訊需採加密傳輸。使用者隱私，明確告知數據收集範圍與用途。" },
+                { center: "企業內部知識管理與專家系統建置", A: "解決資深員工退休導致的知識斷層問題，沉澱組織智慧資產。", B: "自然語言處理(NLP)、知識圖譜(Knowledge Graph)、企業級搜尋引擎。", C: "知識管理顧問、AI工程師、專案經理。", D: "3個月知識盤點與架構設計，6個月系統開發與資料匯入，3個月推廣與優化。", E: "員工提問時，系統不僅能找到文件，更能直接指出負責的專家或提供標準答案，成為「組織大腦」。", F: "內部知識管理入口網站、智能問答機器人。", G: "向各部門主管展示，說明系統如何降低新人訓練成本並提升問題解決效率。", H: "員工分享意願低，需建立獎勵與積分制度。非結構化資料(如影音)處理困難，需導入語音轉文字等技術。" },
+                { center: "永續時尚-舊衣回收再製媒合平台", A: "解決快時尚造成的廢棄衣物問題，推動循環經濟。", B: "AI影像辨識衣物材質、設計師媒合平台、區塊鏈記錄碳足跡。", C: "時尚設計師、環保顧問、平台開發團隊。", D: "6個月平台開發與供應鏈建立，之後持續招募設計師與回收夥伴。", E: "不僅是回收，更是將廢棄衣物升級再造(Upcycling)為獨一無二的設計師商品，創造新價值。", F: "消費者端舊衣回收App、設計師端媒合與銷售平台、再製商品電商網站。", G: "與服飾品牌、百貨公司合作設立回收點，並與環保時尚秀。", H: "回收衣物品質參差-齊，需建立嚴格的篩選標準。再製商品成本高，需透過品牌故事與理念溝通，吸引認同的消費者。" },
+                { center: "寵物健康監測與AI行為分析項圈", A: "幫助飼主即時了解寵物健康狀況與情緒，預防疾病。", B: "多重感測器(活動、心率、體溫)、AI行為模式識別(如:焦慮、搔癢)、GPS定位。", C: "獸醫顧問、硬體工程師、AI演算法工程師。", D: "8個月硬體開發與測試，4個月App與AI模型開發。", E: "市面唯一能透過AI分析寵物異常行為並提出健康警示的穿戴裝置。", F: "智慧項圈硬體、飼主手機App、獸醫院後台監測平台(B2B2C模式)。", G: "參與寵物展，與寵物KOL合作開箱評測，並與連鎖獸醫院合作推廣。", H: "寵物配戴意願與舒適度，需注重人體工學(寵物工學)設計。電池續航力，需在功能與功耗間取得平衡。" },
+                { center: "AI法律合約審閱與風險分析工具", A: "協助中小企業與法務人員快速審閱合約，識別潛在風險。", B: "自然語言處理(NLP)、法律詞條資料庫、風險條款標示。", C: "律師顧問團隊、AI工程師。", D: "1年完成核心模型開發與法律資料庫建置。", E: "能在數分鐘內完成合約審閱，並以紅綠燈方式標示出高風險、異常或缺漏的條款。", F: "一個SaaS訂閱制平台，可上傳合約文件進行分析。", G: "向律師公會、中小企業總會進行推廣，提供免費試用。", H: "法律見解的正確性與責任歸屬，需明確聲明工具僅為輔助，無法取代專業律師意見。合約保密性，需通過ISO 27001等資安認證。" },
+                { center: "個人化學習路徑推薦與線上課程平台", A: "解決學習者在大量線上課程中迷失方向的問題。", B: "使用者技能評測、知識圖譜、學習路徑演算法、課程推薦引擎。", C: "教育專家、數據科學家、平台工程師。", D: "6個月完成平台與推薦引擎核心功能開發，之後持續擴充課程內容。", E: "根據使用者的職涯目標與現有能力，動態生成客製化的學習地圖，而非僅推薦單一課程。", F: "線上學習平台網站與App，提供免費評測與付費課程。", G: "與企業人資部門合作，作為員工內訓平台。與知名講師合作開設獨家課程。", H: "推薦路徑的有效性，需持續追蹤使用者學習成效與回饋進行優化。課程品質，需建立嚴格的講師與課程審核機制。" },
+                { center: "餐廳SaaS系統整合AI預測來客數與備料", A: "幫助餐廳業者降低食材浪費，優化人力安排。", B: "POS系統數據整合、天氣與節慶數據API、機器學習預測模型。", C: "餐飲業顧問、數據分析師、SaaS工程師。", D: "4個月模型開發與測試，3個月整合進現有SaaS服務中。", E: "預測準確率達90%，平均能為餐廳降低15%的食材浪費成本。", F: "在現有餐廳管理SaaS系統中增加一項「AI智慧備料」付費模組。", G: "向現有SaaS客戶進行升級方案行銷，並以成功案例吸引新客戶。", H: "突發事件(如附近大型活動)影響來客數，需允許店家手動輸入外部變數以校正預測。店家使用意願，需將介面設計得簡單易懂。" },
+                { center: "VR心理諮商與壓力緩解療程", A: "為心理諮商提供更具沉浸感與安全感的環境，特別針對社交恐懼或創傷後壓力症候群(PTSD)。", B: "VR場景建構、生物回饋感測器(心率變異HRV)、心理師遠端引導系統。", C: "臨床心理師、VR內容開發者、硬體整合工程師。", D: "6個月開發核心VR場景與互動機制，6個月與醫療機構合作進行臨床驗證。", E: "讓個案在安全的虛擬環境中進行暴露療法或放鬆訓練，心理師可即時監測生理數據調整引導策略。", F: "一套包含VR頭盔與軟體的療程方案，提供給心理諮行所或醫院身心科。", G: "在心理學或精神醫學年會上發表研究成果與產品，爭取專業人士認同。", H: "VR暈眩症(Cyber-sickness)問題，需優化畫面幀率與移動方式。倫理與隱私，需符合最嚴格的醫療資訊保護規範。" },
+                { center: "AI運動教練與體態矯正App", A: "讓使用者在家也能有專屬教練，以正確、安全的姿勢進行訓練。", B: "手機鏡頭影像辨識、人體骨架分析技術、即時語音回饋。", C: "健身教練顧問、電腦視覺工程師、App開發者。", D: "6個月完成核心體態辨識演算法，4個月開發App與訓練課程內容。", E: "透過手機鏡頭即時分析使用者動作，一旦姿勢錯誤立即發出語音提醒，如同真人教練在旁。", F: "訂閱制手機App，提供多種訓練課程與個人化進度追蹤。", G: "與健身網紅合作，在社群媒體上展示App的即時矯正功能。", H: "辨識準確度受限於手機鏡頭角度與環境光線，需在App中清晰引導使用者如何擺放手機。使用者動機，需加入社群挑戰、勳章等遊戲化元素。" },
+                { center: "城市共享電動單車系統建置與營運標案", A: "提供市民短程接駁的綠色交通工具，解決「最後一哩路」問題。", B: "帶有GPS與物聯網鎖的電動單車、App租借與支付系統、大數據調度平台。", C: "交通規劃顧問、硬體供應商、軟體開發與維運團隊。", D: "得標後3個月內完成第一階段1000輛單車與50個站點的建置。", E: "透過大數據分析預測用車熱點，以貨車進行「智慧調度」，避免無車可借或無處可還的窘境。", F: "電動單車硬體、市民租借App、後台維運管理系統。", G: "向市政府交通局提案，強調對減碳、紓解交通的貢獻，並提出完善的維運計畫。", H: "車輛損壞與遺失，需設計堅固的車體與電子圍籬技術。使用者違規停放，需建立信用積分與罰款機制。" },
+                { center: "運用生成式AI打造企業專屬聊天機器人(Chatbot)", A: "建立一個能理解公司內部文件與知識的AI助理，7x24小時回答員工與客戶的提問。", B: "大型語言模型(LLM)微調(Fine-tuning)、檢索增強生成(RAG)技術、企業內部資料庫串接。", C: "AI顧問、資料工程師、後端工程師。", D: "2個月進行資料整理與POC驗證，4個月進行模型微調與系統開發。", E: "能用自然對話方式，精準回答關於公司產品規格、內部規章、客戶問題等，而非關鍵字搜尋。", F: "一個可嵌入官網、內部入口網站或通訊軟體(如Slack, Teams)的聊天機器人服務。", G: "向客服、人資、IT部門提案，展示其如何分擔常見問題的處理工作量。", H: "AI回答產生「幻覺」(Hallucination)的風險，需透過RAG技術，讓回答盡量基於內部文件，並標示資料來源。機敏資料外洩，模型與資料庫需部署在私有雲或地端。" },
+                { center: "博物館數位典藏與線上策展平台", A: "將實體文物透過高精度3D掃描進行數位化，並讓任何人都能在線上策劃自己的主題展覽。", B: "光達(LiDAR)與攝影測量3D掃描技術、Web3D瀏覽技術(WebGL)、線上策展編輯器。", C: "博物館學顧問、3D掃描專家、網站工程師。", D: "第一年完成館內100件重要文物的數位化建檔，並開發線上策展平台Beta版。", E: "從「被動看展」轉為「主動策展」，讓民眾能用博物館的數位典藏，創造自己的敘事，深化文化參與。", F: "高精度文物3D模型資料庫、線上策展平台、教育推廣教案。", G: "向國科會、文化部申請數位人文類型計畫補助，並與各級學校合作，將平台作為教學工具。", H: "數位檔案的著作權與授權問題，需建立清晰的授權規範。平台操作複雜度，需為不同年齡層設計易於上手的策展模式。" },
+                { center: "廢棄漁網回收再利用-海洋文創商品開發", A: "解決海洋廢棄物問題，並將其轉化為具有在地故事性的文創商品。", B: "廢棄漁網回收流程建立、清洗與再製技術、在地設計師合作、電商平台銷售。", C: "環保組織、材料工程師、設計師、行銷人員。", D: "6個月建立北海岸的回收供應鏈與處理流程，6個月完成第一批商品設計與打樣。", E: "每個商品都附有一個QR Code，掃描後可以看到這片漁網是從哪個海灘回收、由哪個團隊處理的故事，極具教育與情感價值。", F: "系列文創商品(如提袋、地墊、飾品)、品牌故事網站、線上/線下銷售通路。", G: "參與文創市集與設計展，並與關注海洋議題的KOL合作，發起淨灘與宣傳活動。", H: "漁網材質複雜，回收處理技術難度高，需持續研發。商品售價較高，需透過強力品牌故事與行銷來支撐其價值。" },
+                { center: "AIoT智慧工地安全監控與預警系統", A: "降低營造業工安意外發生率，保障工人生命安全。", B: "AI影像辨識(未戴安全帽、危險區域入侵)、環境感測器(空氣品質、噪音)、人員定位(UWB)。", C: "工安技師、AI工程師、系統整合商。", D: "6個月完成系統開發與整合，並與一個大型建案工地合作進行實證。", E: "當AI偵測到危險行為或環境異常時，能立即透過聲光警報與手機App通知現場工頭與安衛人員。", F: "整合監控攝影機、感測器與人員定位標籤的軟硬體系統。", G: "向大型營造廠、建設公司提案，強調系統對於降低工安風險、符合法規的重要性。", H: "工地環境惡劣(粉塵、震動)，硬體設備需具備高防護等級(IP67)。工人配戴定位標籤意願，需強調是為了安全而非監視。" },
+                { center: "個人化營養補充品3D列印服務", A: "根據個人基因檢測與健康數據，客製化每日所需的營養軟糖。", B: "食品級3D列印技術、基因定序API串接、個人健康演算法模型。", C: "營養師、基因科學家、食品工程師。", D: "1年完成3D列印機台與原料開發，6個月建立線上客製化平台。", E: "終結瓶瓶罐罐，將一天所需的維他命、礦物質等精準地整合到一顆客製化軟糖中。", F: "線上基因檢測與健康問卷服務、每月訂閱制的個人化營養軟糖。", G: "主打高端客群，與健檢中心、私人健身教練合作推廣。", H: "法規認證(食品、非藥品)，需與衛福部食藥署密切溝通。成本高昂，初期難以普及。" },
+                { center: "企業員工心理健康匿名諮詢與數據分析平台", A: "提供企業員工一個安全、私密的心理支持管道，並協助企業了解組織整體的心理健康狀態。", B: "匿名聊天機器人、專業心理師媒合、去識別化數據分析儀表板。", C: "心理師團隊、AI工程師、資安專家。", D: "6個月開發平台與招募心理師，之後向企業推廣B2B方案。", E: "員工可完全匿名與AI或真人心理師對談，企業端只能看到去識別化的整體數據報告(如:近期壓力來源、情緒趨勢)，兼顧隱私與組織關懷。", F: "員工端App/Web平台、人資/管理層端數據儀表板。", G: "向重視員工福利的幸福企業、科技業、金融業提案。", H: "緊急情況處理(如:自殺意圖)，需建立明確的緊急通報與介入流程(在使用者同意下)。數據去識別化技術的可靠性，需經第三方驗證。" },
+                { center: "運用無人機隊進行橋梁安全檢測", A: "取代傳統需封路搭架的人工檢測，提升橋梁檢測的效率與安全性。", B: "搭載高解析度相機與光達的無人機、AI裂縫辨識演算法、3D模型比對技術。", C: "土木技師、無人機飛手、AI工程師。", D: "8個月開發AI辨識模型與3D比對系統，4個月建立標準作業流程(SOP)。", E: "AI能自動辨識出0.2mm以上的裂縫，並與過往的3D模型比-對，找出潛在的結構變化，比肉眼更客觀。", F: "無人機檢測服務、AI分析報告、橋梁3D數位模型檔案。", G: "向各縣市政府工務局、交通部公路總局等單位提案。", H: "空域申請與飛行限制，需與民航局密切溝通。天候影響(風、雨)，需規劃備用檢測日期。" },
+                { center: "開發視障者專用之AI視覺輔助眼鏡", A: "幫助視障者感知周遭環境、辨識物體與文字，提升獨立生活能力。", B: "輕量化攝影機、骨傳導耳機、邊緣運算AI晶片、物體/文字/人臉辨識演算法。", C: "電腦視覺工程師、工業設計師、視障者顧問。", D: "1年半完成硬體原型開發與演算法優化，半年與視障團體合作進行使用者測試。", E: "透過語音即時告訴使用者「前方3公尺有椅子」、「手上的是1000元鈔票」，將視覺資訊轉為聽覺資訊。", F: "智慧眼鏡硬體、搭配使用的手機App(用於設定)。", G: "申請政府輔具補助，並與視障者福利團體合作推廣。", H: "AI辨識錯誤可能導致危險，需在特定情境(如過馬路)提示使用者仍需依賴傳統輔具。外觀與重量，需設計得像一般眼鏡，降低標籤化效應。" },
+                { center: "大專院校學生二手教科書交換/租借平台", A: "解決學生買新書昂貴、賣舊書麻煩的痛點，促進資源循環。", B: "ISBN掃描上架、校內面交/物流系統、租借計價與押金機制。", C: "平台開發工程師、校園大使團隊。", D: "4個月平台開發完成，開學前一個月集中與各校學生會合作宣傳。", E: "專注於校園內的二手書循環，透過校園大使建立面交點，大幅降低交易成本與時間。", F: "手機App與網站平台。", G: "以校園為單位進行地推，舉辦「舊書換咖啡」等活動快速累積初期使用者。", H: "書籍版本不同問題，需在ISBN基礎上讓使用者標註清楚。交易糾紛，需建立評價與客服仲裁機制。" },
+                { center: "互動式線上程式設計學習平台(Coding Bootcamp)", A: "提供想轉職軟體工程師的學習者一個高效、實作導向的學習環境。", B: "線上程式碼編輯器、自動化作業批改系統、專案導向(Project-Based)課程設計、助教問答系統。", C: "資深軟體工程師(擔任講師)、課程設計師、平台開發團隊。", D: "6個月開發平台與錄製第一期「全端網頁開發」課程。", E: "強調「做中學」，學生大部分時間都在寫程式解任務，而非單向看影片。並保證提供就業媒合服務。", F: "線上學習平台、學員社群、就業媒合服務。", G: "透過免費的「程式設計入門體驗課」吸引潛在學員，並以學長姐的成功轉職案例作為號召。", H: "學員完課率低，需設計學習社群與進度追蹤機制，提高學員黏著度。課程內容更新速度，需隨時跟進業界最新技術。" },
+                { center: "AI驅動的社群媒體內容創作與排程工具", A: "協助社群小編與內容創作者提升產出效率，並優化貼文成效。", B: "生成式AI(文案與圖片)、發文熱點時段分析、多平台一鍵排程發布。", C: "AI工程師、社群行銷專家、SaaS平台開發者。", D: "6個月完成AI模型串接與核心功能開發。", E: "使用者只需輸入關鍵字，AI即可生成多種風格的文案與配圖建議，並推薦最佳發布時間。", F: "SaaS訂閱制平台。", G: "與行銷KOL合作，提供免費帳戶體驗，並撰寫推薦文章。在行銷社團進行宣傳。", H: "AI生成內容同質化，需提供多樣化的風格與模板讓使用者調整。各社群平台API政策變動，需隨時調整發布機制。" },
+                { center: "開發可降解材料的環保外送餐具", A: "解決外送平台興起造成的一次性塑膠餐具氾濫問題。", B: "植物纖維(如竹、甘蔗渣)複合材料研發、耐熱與防水塗層技術、量產製程開發。", C: "材料科學家、工業設計師、供應鏈管理專家。", D: "1年完成材料研發與測試，6個月建立量產產線。", E: "在土壤中180天可自然分解，且成本能控制在比傳統塑膠餐具高出20%以內，具備市場競爭力。", F: "環保餐具系列(碗、杯、餐具組)。", G: "直接與大型外送平台、連鎖餐飲業者洽談B2B供應合約。", H: "消費者接受度(外觀、質感)，需在設計上盡量貼近原有使用習慣。生產成本控制，需達到規模經濟才能壓低單價。" },
+                { center: "城市閒置空間活化再利用媒合平台", A: "媒合閒置空間(如老屋、廢棄廠房)的屋主與有短期空間需求的創作者、新創團隊。", B: "空間資訊發布平台、線上預約與金流系統、使用者評價與保險機制。", C: "建築師/室內設計師(協助空間改造建議)、平台工程師、社群經理。", D: "6個月平台開發上線，初期專注於台北市大同、萬華等老城區。", E: "不僅是空間租借，更提供空間改造的專業諮詢與補助申請服務，創造附加價值。", F: "網站平台、線下實體說明會與空間參訪活動。", G: "與地方政府的都市更新或地方創生部門合作，共同推廣。", H: "空間的合法性與安全性，需建立嚴格的空間審核流程。短期租賃的設備損壞與糾紛，需有完善的保險與客服機制。" },
+                { center: "企業碳盤查與綠電採購顧問服務", A: "協助企業因應國際供應鏈(如Apple, RE100)與國內法規的碳中和要求。", B: "ISO 14064-1碳盤查輔導、綠電採購憑證(T-REC)交易諮詢、節能減碳方案規劃。", C: "環工技師、能源管理顧問、法律顧問。", D: "持續性服務，依客戶需求提供專案服務。", E: "提供從碳盤查、減碳策略到綠電採觀的一站式服務，並協助申請政府補助。", F: "顧問諮詢服務、碳盤查報告書、綠電採購策略規劃書。", G: "主要針對有出口需求的外銷導向型製造業進行開發。", H: "綠電市場供不應求，需憑藉專業與人脈，為客戶找到穩定的綠電來源。國際碳邊境稅等政策變動快，顧問需隨時更新資訊。" },
+                { center: "AI音樂生成引擎-廣告配樂解決方案", A: "提供廣告、影片創作者一個快速、低成本且無版權問題的配樂來源。", B: "生成對抗網路(GAN)或Transformer為基礎的音樂生成模型、情緒/風格標籤系統。", C: "音樂製作人(標註資料)、AI演算法工程師。", D: "1年半完成模型訓練與線上平台開發。", E: "使用者可輸入「悲傷、史詩感、鋼琴」等標籤，或上傳參考影片，AI即可生成符合情境的獨創配樂。", F: "SaaS平台，提供依使用量或訂閱制的收費方案。", G: "與影像創作平台(如Vimeo)、線上課程平台(如Hahow)合作，提供給其平台上的創作者。", H: "生成音樂的品質與原創性，需大量高品質的訓練資料與持續的模型優化。版權歸屬，需在服務條款中明確定義。" },
+                { center: "銀髮族專用智慧聲控電視機上盒", A: "解決長者看不懂遙控器、操作困難的問題，讓電視成為智慧家庭的入口。", B: "遠場語音辨識技術、自然語言理解(NLU)、電視頻道與OTT平台API整合。", C: "語音AI工程師、硬體工程師、使用者體驗設計師。", D: "9個月完成軟硬體開發與整合。", E: "長者只需說「我要看民視」、「第四台轉到55台」、「YouTube搜尋鄧麗君」，即可完成操作。", F: "機上盒硬體、專用遙控器(備用)、線上內容服務。", G: "與有線電視系統業者、中華電信MOD合作，作為其加值服務方案。", H: "台語或客語等方言的辨識率，需特別加強訓練。家中噪音干擾，需優化麥風陣列與降噪演算法。" },
+                { center: "AR虛擬試妝與線上美妝購物平台", A: "讓消費者在線上就能即時看到各種彩妝品在自己臉上的效果，解決網購色差問題。", B: "AR臉部追蹤與渲染技術、AI膚質/膚色檢測、電商購物車系統。", C: "AR工程師、美妝顧問、平台開發團隊。", D: "6個月開發AR核心引擎，3個月建構電商平台。", E: "極高的擬真度與即時性，使用者轉動頭部，妝容能完美貼合，並能一鍵下單購買。", F: "手機App與網站平台。", G: "與各大美妝品牌合作，將其產品數位化建檔。與美妝KOL合作直播試妝。", H: "不同手機鏡頭的色彩還原度，需開發色彩校正機制。使用者卸妝後的素顏隱私，需強調所有影像皆為本機端即時運算，不回傳伺服器。" },
+                { center: "無程式碼(No-Code)網站與App開發平台", A: "讓沒有程式設計背景的創業者、行銷人員也能透過拖拉方式，快速建立自己的網站或App。", B: "視覺化拖拉式介面(Drag-and-Drop)、預設模板與組件庫、後端即服務(BaaS)整合。", C: "軟體架構師、前後端工程師、UI/UX設計師。", D: "1年完成平台核心功能開發，之後持續擴充模板與功能組件。", E: "提供比Wix或Wordpress更高的自由度與更強大的後端功能(如資料庫、會員系統)，但操作依然簡單直觀。", F: "SaaS訂閱制平台，依功能與流量區分方案等級。", G: "針對新創孵化器、大學生創業社群、行銷社團進行推廣。", H: "平台的效能與擴展性，需在架構設計上預留彈性。使用者若有深度客製化需求，平台能力有限，需清楚說明服務邊界。" },
+                { center: "戶外活動與登山安全App", A: "整合路線規劃、離線地圖、天氣預警與緊急求救功能，提升戶外活動安全性。", B: "GPS軌跡紀錄、離線地圖圖磚技術、氣象API、緊急聯絡人與座標簡訊發送功能。", C: "資深登山家(顧問)、App工程師。", D: "6個月開發完成。", E: "獨家「路線偏移警示」與「預計返程時間延遲自動通報」功能，為安全多加一層保障。", F: "免費增值(Freemium)模式App，基礎功能免費，進階功能(如多人位置共享)訂閱制。", G: "與登山社團、戶外用品店合作推廣。", H: "手機在山區的電力與訊號問題，需極度優化App省電效能，並強力教育使用者搭配使用行動電源與離線地圖。" },
+                { center: "AI驅動的個人化旅遊行程規劃工具", A: "根據使用者的興趣、預算、天數，自動生成最佳化的旅遊行程表。", B: "旅遊景點資料庫與知識圖譜、路徑規劃演算法、使用者偏好學習模型。", C: "旅遊達人(標註資料)、AI工程師、App開發者。", D: "8個月完成資料庫建置與演算法開發。", E: "能處理複雜需求，如「帶小孩、喜歡大自然、下午想喝咖啡、預算5000元」的台北三日遊，並自動排好交通路線。", F: "免費的線上行程規劃工具，營收來自於合作飯店或票券的訂單分潤。", G: "與旅遊論壇(如背包客棧)、部落客合作，將工具嵌入其網站。", H: "資訊的即時性(如店家營業時間)，需建立與Google Maps等外部資料源的同步機制。行程的主觀性，需提供多種備案讓使用者彈性調整。" },
+                { center: "校園餐飲專用-智慧取餐櫃系統", A: "解決大學餐廳中午用餐時間人潮擁擠、排隊過久的問題。", B: "App點餐與支付、QR Code/密碼開櫃、保溫功能餐櫃、與餐廳POS系統整合。", C: "硬體設計師、系統整合工程師。", D: "個月完成軟硬體開發，並與一所大學餐廳合作試點。", E: "學生可預先點餐，在指定時間憑手機到取餐櫃取餐，全程無需排隊。", F: "智慧取餐櫃硬體、學生端App、餐廳端後台系統。", G: "向各大專院校的總務處或餐廳外包商提案。", H: "餐點放置錯誤，需有攝影機或重量感測器作為輔助驗證。尖峰時段櫃位不足，需透過數據分析，建議餐廳最佳的櫃位數量。" },
+                { center: "失智症長者防走失-GPS定位與電子圍籬手錶", A: "提供家屬一個安心、即時的方式來掌握失智長者的動向。", B: "低功耗GPS模組、NB-IoT通訊、電子圍籬設定與警報、SOS一鍵求救。", C: "工業設計師、硬體工程師、App開發者。", D: "9個月完成硬體開發與安規認證。", E: "待機時間長達7天，並有生活防水。當長者離開設定的安全範圍(如住家附近500公尺)，家屬手機會立刻收到警報。", F: "定位手錶硬體、家屬端App、月租型通訊服務費。", G: "與長照機構、失智症協會等單位合作推廣。", H: "長者不願配戴，需將外觀設計得像一般手錶，並簡化充電方式。GPS在室內定位不準，需輔以Wi-Fi或LBS定位。" },
+                { center: "線上真人一對一家教媒合平台", A: "讓家長與學生能快速、透明地找到最適合的家教老師。", B: "教師審核與評價系統、線上白板與視訊教室、課程排程與金流系統。", C: "教育顧問、平台工程師、社群經理。", D: "6個月平台開發上線。", E: "強調師資透明化，每位老師皆需通過學歷認證與試教審核，並公開學生評價。", F: "網站平台，向老師收取成交手續費。", G: "在開學季與考試前，針對家長社團、升學論壇進行廣告投放。", H: "教學品質參差不齊，需建立完善的申訴與仲裁機制。老師與學生繞過平台私下交易，需透過平台提供的金流保障與便利功能來提高黏著度。" },
+                { center: "運動賽事即時數據分析與轉播視覺化服務", A: "提供電視台與線上轉播平台更豐富、更具深度的賽事數據，提升觀賽體驗。", B: "電腦視覺追蹤球員與球的軌跡、即時數據統計與分析引擎、AR視覺化圖層。", C: "體育賽事專家、電腦視覺工程師、系統整合商。", D: "針對單一球類(如棒球或籃球)進行為期1年的開發。", E: "能在轉播畫面上即時顯示球的飛行軌跡與速度(如棒球的九宮格)，或球員的跑動熱區圖。", F: "提供給轉播單位的軟硬體整合服務。", G: "向中華職棒、P. LEAGUE+等職業聯盟與轉播電視台提案。", H: "即時運算對硬體要求高，需提供高效能的硬體解決方案。數據的解讀與呈現，需與專業球評密切配合。" }
+            ];
+            let lastExampleIndex = -1;
+
+            // --- Functions ---
+
+            /**
+             * Shows a feedback banner at the bottom of the screen.
+             * @param {string} message - The message to display.
+             * @param {boolean} [isError=false] - If true, displays the banner with an error color.
+             */
+            function showFeedback(message, isError = false) {
+                feedbackBanner.textContent = message;
+                feedbackBanner.classList.remove('hidden');
+                feedbackBanner.style.backgroundColor = isError ? '#b91c1c' : '#1e293b'; // Red-700 for error, Slate-800 for success
+                feedbackBanner.style.opacity = 1;
+
+                setTimeout(() => {
+                    feedbackBanner.style.opacity = 0;
+                    setTimeout(() => {
+                        feedbackBanner.classList.add('hidden');
+                    }, 500);
+                }, 3000);
+            }
+
+            /**
+             * Switches the visible page.
+             * @param {string} pageId - The ID of the page to show.
+             */
+            window.showPage = function(pageId) {
+                pages.forEach(page => page.classList.add('hidden'));
+                const activePage = document.getElementById(pageId);
+                if (activePage) activePage.classList.remove('hidden');
+                window.scrollTo(0, 0);
+            }
+
+            /**
+             * Fills the keyword inputs with a random example.
+             */
+            window.fillExample = function() {
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * examples.length);
+                } while (examples.length > 1 && randomIndex === lastExampleIndex);
+                
+                lastExampleIndex = randomIndex;
+                const example = examples[randomIndex];
+
+                kwCenterInput.value = example.center;
+                document.getElementById('kwA').value = example.A;
+                document.getElementById('kwB').value = example.B;
+                document.getElementById('kwC').value = example.C;
+                document.getElementById('kwD').value = example.D;
+                document.getElementById('kwE').value = example.E;
+                document.getElementById('kwF').value = example.F;
+                document.getElementById('kwG').value = example.G;
+                document.getElementById('kwH').value = example.H;
+            }
+            
+            /**
+             * Clears all keyword inputs.
+             */
+            window.clearKeywords = function() {
+                 const keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'center'];
+                 keys.forEach(key => {
+                    document.getElementById(`kw${key === 'center' ? '-center' : key}`).value = '';
+                 });
+            }
+
+            /**
+             * Gathers keywords from the input fields.
+             * @returns {string|null} The formatted keyword string, or null if topic is missing.
+             */
+            function getKeywords() {
+                const keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+                const center = kwCenterInput.value.trim();
+                if (!center) {
+                    showFeedback('請務必填寫中心的「題目」欄位！', true);
+                    return null;
+                }
+                let keywordsText = `題目：${center}
+
+`;
+                
+                keys.forEach((key) => {
+                    const input = document.getElementById(`kw${key}`);
+                    const value = input.value.trim();
+                    const placeholder = input.placeholder.split('
+')[0]; 
+                    if (value) {
+                        keywordsText += `${placeholder}：${value}
+`;
+                    }
+                });
+                return keywordsText;
+            }
+
+            /**
+             * Builds the prompt for the Gemini API.
+             * @param {string} type - The type of document to generate ('計畫書', '標案', '簡報').
+             * @param {string} keywords - The collected keywords.
+             * @returns {string} The complete prompt.
+             */
+            function buildPrompt(type, keywords) {
+                 let basePrompt = `請你扮演一位頂尖的、來自台灣的策略顧問，你的任務是基於使用者提供的蜂巢式思考架構關鍵字，生成一份專業、結構完整、內容有說服力的「${type}」大綱。
+
+請嚴格使用「台灣繁體中文」進行撰寫。
+
+---
+[蜂巢式思考架構關鍵字]
+${keywords}
+---
+
+[具體要求]
+1.  **結構化輸出**：請以清晰的條列式、多層次標題（如：壹、一、(一)）來呈現大綱。
+2.  **內容擴展**：不僅是列出標題，請在每個標題下，用1-2句話簡要說明該章節應包含的重點內容，並巧妙地融入使用者提供的關鍵字。
+3.  **專業語氣**：保持專業、正式的顧問語氣。
+`;
+                switch (type) {
+                    case '計畫書':
+                        basePrompt += `4.  **計畫書特定指令**：架構應包含封面、摘要、背景分析(市場、痛點)、專案目標(SMART原則)、執行方案(策略、方法)、時程規劃(里程碑)、預算分析、預期效益與風險評估。請確保邏輯連貫，從發現問題到提出方案，再到評估效益。`;
+                        break;
+                    case '標案':
+                        basePrompt += `4.  **標案特定指令**：架構需嚴格對應台灣政府或企業標案的常見格式，包含：服務建議書摘要、公司簡介與實績、專案理解與分析、專案範疇與執行方法、時程與人力規劃、品質管理計畫、經費分析、預期成果與加值服務。強調對需求的理解與自身優勢。`;
+                        break;
+                    case '簡報':
+                        basePrompt += `4.  **簡報特定指令**：架構需具備故事性與說服力，以投影片(Slide)為單位呈現。結構應為：開場破題、現況挑戰、解決方案、方案亮點(差異化優勢)、執行藍圖、成功案例或團隊介紹、結論與行動呼籲。每一頁的目標都要明確。`;
+                        break;
+                }
+                basePrompt += `
+
+[輸出指令]
+請直接開始生成大綱。你的回答不應包含任何前言、開場白或角色扮演的確認語句，必須直接以大綱的第一個標題（例如：「壹、前言」或「Slide 1: 封面頁」）開始。`;
+                return basePrompt;
+            }
+
+            /**
+             * Main function to generate the document structure.
+             * @param {string} type - The type of document.
+             */
+            window.generateStructure = async function(type) {
+                const keywords = getKeywords();
+                if (!keywords) return; // Stop if center topic is missing
+
+                const finalPrompt = buildPrompt(type, keywords);
+                
+                let targetButton;
+                switch(type) {
+                    case '計畫書': targetButton = document.getElementById('btn-plan'); break;
+                    case '標案': targetButton = document.getElementById('btn-bid'); break;
+                    case '簡報': targetButton = document.getElementById('btn-proposal'); break;
+                }
+                
+                setLoading(true, targetButton);
+                resultTitle.innerText = `生成結果：${type}架構`;
+                resultOutput.innerHTML = "<p>AI 正在思考中，請稍候...</p><p>這通常需要 10-20 秒的時間。</p>";
+                showPage('page-result');
+                
+                const apiKey = ""; // Canvas will provide the key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: finalPrompt }] }],
+                    generationConfig: { "temperature": 0.7, "topK": 1, "topP": 1, "maxOutputTokens": 8192 }
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API 請求失敗，狀態碼：${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        // **FIX**: Convert each line into a <p> tag for better structure for html-docx-js
+                        const formattedText = text.trim().split('
+').map(line => `<p>${line || '&nbsp;'}</p>`).join('');
+                        resultOutput.innerHTML = formattedText;
+                    } else {
+                        let reason = "未知原因";
+                        if (result.candidates && result.candidates[0].finishReason) {
+                            reason = result.candidates[0].finishReason;
+                        }
+                         if (result.promptFeedback && result.promptFeedback.blockReason) {
+                            reason = `被阻擋，原因：${result.promptFeedback.blockReason}`;
+                        }
+                        resultOutput.innerHTML = `<p>抱歉，API 未能生成內容。</p><p>原因：${reason}</p><p>請嘗試調整您的輸入內容後再試一次。</p>`;
+                    }
+                } catch (error) {
+                    console.error("Gemini API Error:", error);
+                    resultOutput.innerHTML = `<p>發生錯誤：${error.message}</p><p>請檢查瀏覽器開發者工具(F12)的 Console 獲取更多資訊，或稍後再試。</p>`;
+                } finally {
+                    setLoading(false, targetButton);
+                }
+            }
+            
+            /**
+             * Sets the loading state for a button.
+             * @param {boolean} isLoading - Whether the button should be in a loading state.
+             * @param {HTMLElement} button - The button element.
+             */
+            function setLoading(isLoading, button) {
+                const allButtons = document.querySelectorAll('#action-buttons button');
+                if (isLoading) {
+                    allButtons.forEach(btn => {
+                        btn.disabled = true;
+                        const span = btn.querySelector('span');
+                        if (btn === button && !btn.querySelector('.spinner')) {
+                             btn.innerHTML = `<div class="spinner"></div>` + (span ? span.outerHTML : btn.innerHTML);
+                        }
+                    });
+                } else {
+                    allButtons.forEach(btn => {
+                        btn.disabled = false;
+                        const spinner = btn.querySelector('.spinner');
+                        if (spinner) {
+                            spinner.remove();
+                        }
+                    });
+                }
+            }
+            
+            /**
+             * Copies the generated result as plain text to the clipboard.
+             */
+            window.copyResult = function() {
+                const textToCopy = resultOutput.innerText;
+                if (!textToCopy || textToCopy.startsWith("AI 正在思考中")) return;
+
+                const textarea = document.createElement('textarea');
+                textarea.value = textToCopy;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showFeedback('結果已複製！');
+                } catch (err) {
+                    console.error('無法複製內容: ', err);
+                    showFeedback('複製失敗，您的瀏覽器可能不支援此功能。', true);
+                }
+                document.body.removeChild(textarea);
+            }
+
+            /**
+             * Saves the generated result as a .docx Word file using the 'docx' library.
+             */
+            window.saveAsWord = function() {
+                const textContent = resultOutput.innerText;
+                if (!textContent || textContent.startsWith("AI 正在思考中")) {
+                    showFeedback('沒有可儲存的內容。', true);
+                    return;
+                }
+
+                const titleText = document.getElementById('result-title').innerText;
+                const filename = `${titleText}.docx`;
+
+                try {
+                    // Destructure necessary components from the global 'docx' object
+                    // This object is available because we included the docx script in the <head>
+                    const { Document, Packer, Paragraph, TextRun } = docx;
+
+                    // Split the plain text content into an array of lines
+                    const lines = textContent.split('
+');
+
+                    // Create an array of Paragraph objects for the docx document
+                    const paragraphs = lines.map(line =>
+                        new Paragraph({
+                            children: [new TextRun(line)],
+                        })
+                    );
+
+                    // Create the main document object
+                    const doc = new Document({
+                        sections: [{
+                            properties: {},
+                            children: paragraphs,
+                        }],
+                    });
+
+                    // Use the Packer to convert the document object into a blob
+                    Packer.toBlob(doc).then(blob => {
+                        // Use FileSaver.js to trigger the download
+                        saveAs(blob, filename);
+                        showFeedback('Word 檔案已開始下載！');
+                    }).catch(err => {
+                         console.error('打包 Word 檔案時出錯: ', err);
+                         showFeedback('打包 Word 檔案時出錯，請查看主控台。', true);
+                    });
+
+                } catch (err) {
+                    console.error('無法存為 Word: ', err);
+                    showFeedback('存檔失敗，可能是因為 docx 程式庫載入失敗或發生錯誤。', true);
+                }
+            }
+
+
+            // --- Initial Setup ---
+            if (loadExampleBtn) {
+                loadExampleBtn.textContent = `載入隨機範例(${examples.length}種)`;
+            }
+            showPage('page-input'); // Start on the input page
+        });
+    </script>
+</body>
+</html>
