@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貓裏山丘茶作坊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            /* Changed background to a warm, rosy off-white reminiscent of tea color */
+            background-color: #f9f5f3;
+            color: #3f3c3a;
+        }
+        .page-content {
+            display: none;
+        }
+        .nav-link.active {
+            color: #6d4c41;
+            font-weight: 700;
+            border-bottom: 2px solid #6d4c41;
+        }
+        .nav-link {
+            cursor: pointer;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #6d4c41;
+        }
+        .hero-section {
+            background-image: url('https://placehold.co/1920x800/8c2d19/FFFFFF?text=貓裏山丘茶園');
+            background-size: cover;
+            background-position: center;
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        /* Changed primary button color from emerald to a deep red */
+        .btn-primary {
+            @apply bg-red-900 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-800 transition duration-300;
+        }
+        .btn-secondary {
+            @apply bg-amber-800 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-900 transition duration-300;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a onclick="showPage('home')" class="flex items-center space-x-2 cursor-pointer">
+                <!-- Changed icon color to red -->
+                <i data-lucide="mountain" class="text-red-900"></i>
+                <h1 class="text-xl font-bold text-gray-800">貓裏山丘茶作坊</h1>
+            </a>
+            <div id="main-nav" class="hidden md:flex items-center space-x-6 text-gray-600">
+                <a onclick="showPage('home')" class="nav-link">首頁</a>
+                <a onclick="showPage('products')" class="nav-link">茶品介紹</a>
+                <a onclick="showPage('services')" class="nav-link">製茶服務</a>
+                <a onclick="showPage('education')" class="nav-link">食農教育</a>
+                <a onclick="showPage('knowledge')" class="nav-link">紅茶知識</a>
+            </div>
+             <button id="mobile-menu-btn" class="md:hidden">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a onclick="showPage('home')" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">首頁</a>
+            <a onclick="showPage('products')" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">茶品介紹</a>
+            <a onclick="showPage('services')" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">製茶服務</a>
+            <a onclick="showPage('education')" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">食農教育</a>
+            <a onclick="showPage('knowledge')" class="block py-2 px-6 text-gray-600 hover:bg-gray-100">紅茶知識</a>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Home Page -->
+        <section id="home" class="page-content">
+            <!-- Hero Section -->
+            <div class="hero-section h-[60vh] flex items-center justify-center text-white">
+                <div class="text-center bg-black/50 p-8 rounded-lg">
+                    <h2 class="text-5xl font-bold mb-4">傳承百年工藝，品味山丘之韻</h2>
+                    <p class="text-xl max-w-2xl">來自苗栗的純淨土地，我們堅持友善農法，為您獻上每一口甘醇的祝福。</p>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="py-16 bg-white/70">
+                <div class="container mx-auto px-6 text-center">
+                    <!-- Changed title color to red -->
+                    <h3 class="text-3xl font-bold mb-4 text-red-950">我們的故事</h3>
+                    <p class="max-w-3xl mx-auto text-gray-600 leading-relaxed">
+                        貓裏山丘茶作坊座落於苗栗的蒼翠山巒間，這裡曾是台灣茶葉外銷的輝煌起點。「貓裏」是苗栗的舊稱，我們以此為名，不僅是為了紀念這片土地的歷史，更是承諾要將這份屬於台灣的驕傲，以最純粹、最美好的樣貌，呈現給每一位愛茶人。我們相信，一杯好茶，是風土、工藝與人情的完美結合。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="py-16">
+                <div class="container mx-auto px-6">
+                    <div class="grid md:grid-cols-3 gap-10">
+                        <div class="text-center">
+                            <div class="flex justify-center mb-4">
+                                <!-- Changed icon background to red -->
+                                <div class="bg-red-100 p-4 rounded-full">
+                                    <i data-lucide="leaf" class="w-10 h-10 text-red-900"></i>
+                                </div>
+                            </div>
+                            <h4 class="text-xl font-bold mb-2">嚴選茶品</h4>
+                            <p class="text-gray-600">從蟬蘊貓裏紅到經典東方美人，每一款都是匠心之作。</p>
+                             <!-- Changed button text color to red -->
+                            <button onclick="showPage('products')" class="mt-4 text-red-900 font-semibold hover:text-red-700">探索更多 &rarr;</button>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-amber-100 p-4 rounded-full">
+                                    <i data-lucide="sprout" class="w-10 h-10 text-amber-800"></i>
+                                </div>
+                            </div>
+                            <h4 class="text-xl font-bold mb-2">食農教育</h4>
+                            <p class="text-gray-600">親身體驗採茶、製茶樂趣，感受土地的生命力。</p>
+                            <button onclick="showPage('education')" class="mt-4 text-amber-800 font-semibold hover:text-amber-600">了解體驗 &rarr;</button>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-stone-100 p-4 rounded-full">
+                                    <i data-lucide="cog" class="w-10 h-10 text-stone-800"></i>
+                                </div>
+                            </div>
+                            <h4 class="text-xl font-bold mb-2">專業製茶</h4>
+                            <p class="text-gray-600">提供客製化茶葉代工服務，實現您的茶葉夢想。</p>
+                            <button onclick="showPage('services')" class="mt-4 text-stone-800 font-semibold hover:text-stone-600">洽詢服務 &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Page -->
+        <section id="products" class="page-content py-16">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                     <!-- Changed title color to red -->
+                    <h2 class="text-4xl font-bold text-red-950">匠心茶品</h2>
+                    <p class="text-lg text-gray-600 mt-2">每一片茶葉，都蘊含著山丘的風土與人情。</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Product Data -->
+                    <script>
+                        const products = [
+                            { name: "貓裏紅茶", desc: "經小綠葉蟬著涎，帶有天然蜜香與熟果香，滋味醇厚，是苗栗特色紅茶。", img: "https://placehold.co/400x400/8c2d19/FFFFFF?text=貓裏紅茶" },
+                            { name: "東方美人茶", desc: "世界聞名的台灣特色茶，具獨特的熟果香和蜂蜜香，茶湯呈琥珀色，甘醇潤滑。", img: "https://placehold.co/400x400/c57d0a/FFFFFF?text=東方美人" },
+                            { name: "酸柑茶", desc: "客家傳統智慧的結晶，將茶葉填入虎頭柑中，經九蒸九曬製成，風味獨特，潤喉回甘。", img: "https://placehold.co/400x400/e67e22/FFFFFF?text=酸柑茶" },
+                            { name: "貓裏紅茶茶包", desc: "精選貓裏紅茶，製成方便沖泡的立體茶包，讓您隨時隨地輕鬆品味經典蜜香。", img: "https://placehold.co/400x400/a0522d/FFFFFF?text=貓裏紅茶茶包" }
+                        ];
+                    </script>
+                    <!-- Product Grid -->
+                    <div id="product-grid" class="contents"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Page -->
+        <section id="services" class="page-content py-16 bg-white/70">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                     <!-- Changed title color to red -->
+                    <h2 class="text-4xl font-bold text-red-950">專業製茶服務</h2>
+                    <p class="text-lg text-gray-600 mt-2">結合傳統工藝與現代管理，為您打造專屬好茶。</p>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+                    <img src="https://placehold.co/600x800/6b7280/FFFFFF?text=製茶工藝" alt="製茶工藝" class="rounded-lg shadow-lg w-full h-full object-cover">
+                    <div class="space-y-6">
+                        <div>
+                             <!-- Changed title color to red -->
+                            <h3 class="text-2xl font-bold text-red-900 mb-2">客製化茶葉代工</h3>
+                            <p class="text-gray-600 leading-relaxed">無論您是茶農或品牌商，我們都能提供從萎凋、發酵、揉捻到烘焙的全方位製茶服務。我們能根據您的茶菁特性與風味需求，量身打造獨一無二的茶品。</p>
+                        </div>
+                        <div>
+                             <!-- Changed title color to red -->
+                            <h3 class="text-2xl font-bold text-red-900 mb-2">品質控管</h3>
+                            <p class="text-gray-600 leading-relaxed">我們擁有經驗豐富的製茶師傅，並導入嚴格的品質管理系統，確保每一批茶葉都能達到最高的品質標準。</p>
+                        </div>
+                        <div>
+                             <!-- Changed title color to red -->
+                            <h3 class="text-2xl font-bold text-red-900 mb-2">合作洽詢</h3>
+                            <p class="text-gray-600 leading-relaxed">歡迎對茶葉充滿熱情的您與我們聯繫，共同探索茶葉的無限可能。請透過頁尾的聯絡方式與我們洽談。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Page -->
+        <section id="education" class="page-content py-16">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-amber-900">食農教育體驗</h2>
+                    <p class="text-lg text-gray-600 mt-2">走進茶園，親手觸摸土地的溫度。</p>
+                </div>
+                 <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-amber-800 mb-2">一日茶師體驗</h3>
+                            <p class="text-gray-600 leading-relaxed">跟隨我們的腳步，戴上斗笠、背上茶簍，親手採摘一心二葉。在製茶師的指導下，學習萎凋、揉捻等基本製茶過程，並將您親手製作的茶葉帶回家。</p>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-amber-800 mb-2">茶園生態導覽</h3>
+                            <p class="text-gray-600 leading-relaxed">我們的茶園採友善農法耕作，生態豐富。在這裡，您不僅能認識茶樹，還能看到小綠葉蟬、各種昆蟲與鳥類，了解茶園與自然共生的智慧。</p>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-amber-800 mb-2">預約您的旅程</h3>
+                            <p class="text-gray-600 leading-relaxed">我們提供團體預約及客製化行程。無論是學校戶外教學、企業團隊活動，或三五好友的深度旅遊，都歡迎與我們聯繫，規劃一場難忘的茶鄉之旅。</p>
+                        </div>
+                    </div>
+                    <img src="https://placehold.co/600x800/f59e0b/FFFFFF?text=食農體驗" alt="食農體驗" class="rounded-lg shadow-lg w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- Knowledge Base Page -->
+        <section id="knowledge" class="page-content py-16 bg-white/70">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                     <!-- Changed title color to red -->
+                    <h2 class="text-4xl font-bold text-red-950">紅茶知識庫</h2>
+                    <p class="text-lg text-gray-600 mt-2">深入琥珀色的甘醇世界，成為品茶達人。</p>
+                </div>
+                <!-- Knowledge content will be injected here -->
+                <div id="knowledge-content" class="max-w-4xl mx-auto space-y-12"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-10">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">貓裏山丘茶作坊</h3>
+                    <p class="text-gray-400">傳承百年茶香，品味在地風土。</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">聯絡我們</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center space-x-2"><i data-lucide="map-pin" class="w-4 h-4"></i><span>苗栗縣苗栗市中山路384號</span></li>
+                        <li class="flex items-center space-x-2"><i data-lucide="phone" class="w-4 h-4"></i><span>0981-038768</span></li>
+                        <li class="flex items-center space-x-2"><i data-lucide="mail" class="w-4 h-4"></i><span>agi99 @kimo.com</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">關注我們</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="youtube" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-6 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 貓裏山丘茶作坊. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- Page Navigation ---
+        const pages = document.querySelectorAll('.page-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.style.display = 'block';
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Close mobile menu after selection
+            mobileMenu.classList.add('hidden');
+            window.scrollTo(0, 0);
+        }
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Product Grid Generation ---
+        function generateProductGrid() {
+            const grid = document.getElementById('product-grid');
+            products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white rounded-lg shadow-md overflow-hidden';
+                card.innerHTML = `
+                    <img src="${p.img}" alt="${p.name}" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-red-900">${p.name}</h3>
+                        <p class="text-gray-600 mt-2 h-20">${p.desc}</p>
+                        <a href="https://www.mltea.com.tw/products/31" target="_blank" class="inline-block mt-4 btn-primary">
+                            立即購買
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- Knowledge Base Injection ---
+        function injectKnowledgeBase() {
+            const container = document.getElementById('knowledge-content');
+            container.innerHTML = `
+                <article>
+                    <h3 class="text-3xl font-bold mb-4 text-amber-900">紅茶的歷史巡禮</h3>
+                    <div class="relative border-l-2 border-amber-200 ml-4 space-y-8">
+                        <div class="ml-8">
+                            <div class="absolute -left-4 mt-1.5 w-8 h-8 bg-amber-700 rounded-full border-4 border-white flex items-center justify-center"><i data-lucide="sparkles" class="w-4 h-4 text-white"></i></div>
+                            <h4 class="text-xl font-semibold text-gray-900">17世紀・中國福建</h4>
+                            <p class="mt-1 text-gray-600">紅茶的誕生普遍被認為源於中國福建武夷山地區，為了迎合歐洲市場對茶葉的長期保存需求，茶農無意間透過全發酵工藝，創造出了「正山小種」，成為世界紅茶的鼻祖。</p>
+                        </div>
+                        <div class="ml-8">
+                            <div class="absolute -left-4 mt-1.5 w-8 h-8 bg-amber-700 rounded-full border-4 border-white flex items-center justify-center"><i data-lucide="ship" class="w-4 h-4 text-white"></i></div>
+                            <h4 class="text-xl font-semibold text-gray-900">18世紀・風靡歐洲</h4>
+                            <p class="mt-1 text-gray-600">隨著海上貿易的興盛，紅茶被帶往歐洲，並迅速成為英國貴族的新寵，著名的「下午茶」文化應運而生。</p>
+                        </div>
+                        <div class="ml-8">
+                            <div class="absolute -left-4 mt-1.5 w-8 h-8 bg-amber-700 rounded-full border-4 border-white flex items-center justify-center"><i data-lucide="mountain" class="w-4 h-4 text-white"></i></div>
+                            <h4 class="text-xl font-semibold text-gray-900">19世紀・遍地開花</h4>
+                            <p class="mt-1 text-gray-600">英國開始在印度、錫蘭等地大規模種植茶樹，孕育出了阿薩姆、大吉嶺等各具特色的紅茶，共同塑造了今日紅茶世界的繽紛樣貌。</p>
+                        </div>
+                    </div>
+                </article>
+                <article>
+                    <h3 class="text-3xl font-bold mb-6 text-amber-900">世界紅茶知名產區</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-amber-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl text-amber-800">大吉嶺 (Darjeeling)</h4>
+                            <p class="text-gray-600 mt-1">被譽為「紅茶中的香檳」，帶有細緻的麝香葡萄風味。</p>
+                        </div>
+                        <div class="bg-amber-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl text-amber-800">阿薩姆 (Assam)</h4>
+                            <p class="text-gray-600 mt-1">滋味濃厚強勁，帶有獨特的麥芽香氣，適合製作奶茶。</p>
+                        </div>
+                        <div class="bg-amber-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl text-amber-800">日月潭 (Sun Moon Lake)</h4>
+                            <p class="text-gray-600 mt-1">台灣代表，紅玉18號帶有天然的肉桂與薄荷香。</p>
+                        </div>
+                        <div class="bg-amber-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl text-amber-800">貓裏 (Maoli)</h4>
+                            <p class="text-gray-600 mt-1">經小綠葉蟬吸食，帶有獨特的天然蜜香與熟果香。</p>
+                        </div>
+                    </div>
+                </article>
+                 <article>
+                    <h3 class="text-3xl font-bold mb-6 text-amber-900">完美紅茶沖泡指南</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-stone-100 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl text-stone-800">茶量</h4>
+                            <p class="text-gray-600 mt-1">建議茶水比例為 1:50，即 3g 茶葉搭配 150ml 水。</p>
+                        </div>
+                        <div class="bg-stone-100 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl text-stone-800">水溫</h4>
+                            <p class="text-gray-600 mt-1">建議使用 90-95°C 的熱水，以充分釋放香氣。</p>
+                        </div>
+                        <div class="bg-stone-100 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl text-stone-800">時間</h4>
+                            <p class="text-gray-600 mt-1">條索型紅茶約 2-3 分鐘，碎型紅茶約 1-2 分鐘。</p>
+                        </div>
+                        <div class="bg-stone-100 p-6 rounded-lg">
+                            <h4 class="font-bold text-xl text-stone-800">茶具</h4>
+                            <p class="text-gray-600 mt-1">建議使用瓷器或玻璃茶具，能忠實呈現茶湯原色。</p>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
+            generateProductGrid();
+            injectKnowledgeBase();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
