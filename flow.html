@@ -48,6 +48,7 @@
         @media (max-width: 768px) {
             .visual-flow-container {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
         }
         .flow-source, .flow-drain {
@@ -136,35 +137,51 @@
             <h2 class="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-12">金流思維實戰分析：案例解析</h2>
             <div class="space-y-12">
 
-                <!-- Case Study Card: Template -->
+                <!-- Individual -->
                 <div class="card p-4 md:p-8">
                     <h3 class="text-2xl font-bold text-center mb-4">個人 (Individual)</h3>
                     <div class="visual-flow-container">
-                        <!-- Inflow -->
-                        <div class="flow-source">
-                            <ul><li>薪資 / 獎金</li><li>投資收益</li><li>副業 / 接案</li></ul>
-                            <svg class="pipe-svg" viewBox="0 0 40 80"><path d="M40 0 V30 C40 50, 20 50, 20 70 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg>
-                        </div>
-                        <!-- Engine & Pool -->
-                        <div class="engine-pool">
-                            <svg class="pool-svg" viewBox="0 0 200 120">
-                                <path d="M10 110 C 10 20, 190 20, 190 110 Z" fill="#e0f2fe"/>
-                                <path d="M10 70 Q 50 50, 100 70 T 190 70 V 110 C 190 20, 10 20, 10 110 Z" fill="#38bdf8"/>
-                                <circle cx="100" cy="40" r="25" fill="#fff" stroke="#4338ca" stroke-width="3"/>
-                                <path d="M100 25 L100 55 M88 32 L112 48 M88 48 L112 32" stroke="#4338ca" stroke-width="3" stroke-linecap="round"/>
-                            </svg>
-                            <div class="engine-text">人力資本 & 資產配置</div>
-                        </div>
-                        <!-- Outflow -->
-                        <div class="flow-drain">
-                            <svg class="pipe-svg" viewBox="0 0 40 80"><path d="M20 0 V10 C20 30, 40 30, 40 50 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg>
-                            <ul><li>生活開銷</li><li>稅務 / 保險</li><li>儲蓄 / 投資</li></ul>
-                        </div>
+                        <div class="flow-source"><ul><li>薪資 / 獎金</li><li>投資收益</li><li>副業 / 接案</li></ul><svg class="pipe-svg" viewBox="0 0 40 80"><path d="M40 0 V30 C40 50, 20 50, 20 70 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg></div>
+                        <div class="engine-pool"><svg class="pool-svg" viewBox="0 0 200 120"><path d="M10 110 C 10 20, 190 20, 190 110 Z" fill="#e0f2fe"/><path d="M10 70 Q 50 50, 100 70 T 190 70 V 110 C 190 20, 10 20, 10 110 Z" fill="#38bdf8"/><circle cx="100" cy="40" r="25" fill="#fff" stroke="#4338ca" stroke-width="3"/><path d="M100 25 L100 55 M88 32 L112 48 M88 48 L112 32" stroke="#4338ca" stroke-width="3" stroke-linecap="round"/></svg><div class="engine-text">人力資本 & 資產配置</div></div>
+                        <div class="flow-drain"><svg class="pipe-svg" viewBox="0 0 40 80"><path d="M20 0 V10 C20 30, 40 30, 40 50 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg><ul><li>生活開銷</li><li>稅務 / 保險</li><li>儲蓄 / 投資</li></ul></div>
                     </div>
                     <div class="strategy-goal text-center"><strong>策略目標：</strong>提升專業技能（強化引擎），開拓多元收入（擴大水源），並持續投資（加大水池）。</div>
                 </div>
-                
-                <!-- Other Cases using the new visual template -->
+
+                <!-- Association -->
+                <div class="card p-4 md:p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4">協會 (Association)</h3>
+                    <div class="visual-flow-container">
+                        <div class="flow-source"><ul><li>會員費</li><li>政府補助</li><li>企業贊助</li><li>活動收入</li></ul><svg class="pipe-svg" viewBox="0 0 40 80"><path d="M40 0 V30 C40 50, 20 50, 20 70 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg></div>
+                        <div class="engine-pool"><svg class="pool-svg" viewBox="0 0 200 120"><path d="M10 110 C 10 20, 190 20, 190 110 Z" fill="#e0f2fe"/><path d="M10 70 Q 50 50, 100 70 T 190 70 V 110 C 190 20, 10 20, 10 110 Z" fill="#38bdf8"/><circle cx="100" cy="40" r="25" fill="#fff" stroke="#4338ca" stroke-width="3"/><path d="M100 25 L100 55 M88 32 L112 48 M88 48 L112 32" stroke="#4338ca" stroke-width="3" stroke-linecap="round"/></svg><div class="engine-text">專業服務 & 會員凝聚</div></div>
+                        <div class="flow-drain"><svg class="pipe-svg" viewBox="0 0 40 80"><path d="M20 0 V10 C20 30, 40 30, 40 50 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg><ul><li>人事薪資</li><li>活動開銷</li><li>場地租金</li><li>行政費用</li></ul></div>
+                    </div>
+                    <div class="strategy-goal text-center"><strong>策略目標：</strong>擴大會員基礎（增加穩定水源），提升服務價值（強化引擎），以實現組織宗旨（提升水池價值）。</div>
+                </div>
+
+                <!-- Foundation -->
+                <div class="card p-4 md:p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4">基金會 (Foundation)</h3>
+                    <div class="visual-flow-container">
+                        <div class="flow-source"><ul><li>企業/民眾捐款</li><li>基金孳息</li></ul><svg class="pipe-svg" viewBox="0 0 40 80"><path d="M40 0 V30 C40 50, 20 50, 20 70 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg></div>
+                        <div class="engine-pool"><svg class="pool-svg" viewBox="0 0 200 120"><path d="M10 110 C 10 20, 190 20, 190 110 Z" fill="#e0f2fe"/><path d="M10 70 Q 50 50, 100 70 T 190 70 V 110 C 190 20, 10 20, 10 110 Z" fill="#38bdf8"/><circle cx="100" cy="40" r="25" fill="#fff" stroke="#4338ca" stroke-width="3"/><path d="M100 25 L100 55 M88 32 L112 48 M88 48 L112 32" stroke="#4338ca" stroke-width="3" stroke-linecap="round"/></svg><div class="engine-text">議題倡議 & 專案執行</div></div>
+                        <div class="flow-drain"><svg class="pipe-svg" viewBox="0 0 40 80"><path d="M20 0 V10 C20 30, 40 30, 40 50 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg><ul><li>專案支出</li><li>補助金撥款</li><li>研究/行政費用</li></ul></div>
+                    </div>
+                    <div class="strategy-goal text-center"><strong>策略目標：</strong>提升社會影響力（擴大捐款水源），高效執行專案（強化引擎），實現設立宗旨（讓水池的水流向社會）。</div>
+                </div>
+
+                <!-- Church / Temple -->
+                <div class="card p-4 md:p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4">教會 / 宮廟 (Religious Org.)</h3>
+                    <div class="visual-flow-container">
+                        <div class="flow-source"><ul><li>信眾奉獻/香油錢</li><li>法會/活動收入</li><li>點燈/安太歲</li></ul><svg class="pipe-svg" viewBox="0 0 40 80"><path d="M40 0 V30 C40 50, 20 50, 20 70 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg></div>
+                        <div class="engine-pool"><svg class="pool-svg" viewBox="0 0 200 120"><path d="M10 110 C 10 20, 190 20, 190 110 Z" fill="#e0f2fe"/><path d="M10 70 Q 50 50, 100 70 T 190 70 V 110 C 190 20, 10 20, 10 110 Z" fill="#38bdf8"/><circle cx="100" cy="40" r="25" fill="#fff" stroke="#4338ca" stroke-width="3"/><path d="M100 25 L100 55 M88 32 L112 48 M88 48 L112 32" stroke="#4338ca" stroke-width="3" stroke-linecap="round"/></svg><div class="engine-text">信仰感召 & 社區服務</div></div>
+                        <div class="flow-drain"><svg class="pipe-svg" viewBox="0 0 40 80"><path d="M20 0 V10 C20 30, 40 30, 40 50 V80" fill="none" stroke="#9ca3af" stroke-width="4"/></svg><ul><li>建築維護</li><li>慈善/社會服務</li><li>傳教/活動開銷</li></ul></div>
+                    </div>
+                    <div class="strategy-goal text-center"><strong>策略目標：</strong>深化信眾連結（穩固水源），提供精神與社區支持（強化引擎），將資源用於慈善與教義傳播（讓水池的水滋養社區）。</div>
+                </div>
+
+                <!-- TSMC -->
                 <div class="card p-4 md:p-8">
                     <h3 class="text-2xl font-bold text-center mb-4">台積電 (TSMC)</h3>
                     <div class="visual-flow-container">
@@ -175,6 +192,7 @@
                     <div class="strategy-goal text-center"><strong>策略目標：</strong>將巨額營收（超大水管）投入研發與建廠（強化引擎），維持技術護城河，拉大與對手的差距（水池規模）。</div>
                 </div>
 
+                <!-- Google -->
                 <div class="card p-4 md:p-8">
                     <h3 class="text-2xl font-bold text-center mb-4">谷歌 (Google)</h3>
                     <div class="visual-flow-container">
@@ -185,6 +203,7 @@
                     <div class="strategy-goal text-center"><strong>策略目標：</strong>用免費服務吸引海量用戶（開拓無數小水源），透過廣告引擎變現，再將資金投入創新業務（尋找新水池）。</div>
                 </div>
                 
+                <!-- Taiwan Gov. -->
                 <div class="card p-4 md:p-8">
                     <h3 class="text-2xl font-bold text-center mb-4">台灣政府 (Taiwan Gov.)</h3>
                     <div class="visual-flow-container">
@@ -194,8 +213,6 @@
                     </div>
                     <div class="strategy-goal text-center"><strong>策略目標：</strong>促進經濟發展以擴大稅基（加寬總水管），透過預算分配（引擎調控）將資源投入關鍵領域，提升全民福祉（水池水位）。</div>
                 </div>
-
-                <!-- Add other cases as needed -->
 
             </div>
         </section>
