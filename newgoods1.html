@@ -37,23 +37,23 @@
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-red-50">
 
     <!-- Header -->
     <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="#" class="text-2xl font-bold text-green-800">新住民好物網</a>
+                    <a href="#" class="text-2xl font-bold text-red-800">新住民好物網</a>
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="#products" class="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium">在地好物</a>
-                    <a href="#services" class="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium">專業服務</a>
-                    <a href="#farms" class="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium">休閒體驗</a>
-                    <a href="#news" class="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium">最新消息</a>
+                    <a href="#products" class="text-gray-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium">在地好物</a>
+                    <a href="#services" class="text-gray-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium">專業服務</a>
+                    <a href="#farms" class="text-gray-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium">休閒體驗</a>
+                    <a href="#news" class="text-gray-600 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium">最新消息</a>
                 </div>
                 <div class="relative">
-                    <button id="cart-button" class="text-gray-600 hover:text-green-700">
+                    <button id="cart-button" class="text-gray-600 hover:text-red-700">
                         <i class="fas fa-shopping-cart text-xl"></i>
                         <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
                     </button>
@@ -140,17 +140,17 @@
             </section>
 
             <!-- 最新消息 -->
-            <section id="news" class="bg-green-50 rounded-lg p-8 md:p-12">
+            <section id="news" class="bg-red-100/60 rounded-lg p-8 md:p-12">
                 <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">最新消息</h2>
                 <div class="max-w-3xl mx-auto space-y-6">
                     <div class="bg-white p-6 rounded-lg shadow-sm">
                         <p class="text-sm text-gray-500">2025年7月28日</p>
-                        <h4 class="font-semibold text-lg text-green-800 mt-1">恭喜【利紅薑黃】通過2025年度SGS檢驗！</h4>
+                        <h4 class="font-semibold text-lg text-red-800 mt-1">恭喜【利紅薑黃】通過2025年度SGS檢驗！</h4>
                         <p class="text-gray-600 mt-2">利紅薑黃持續為食安把關，提供消費者最安心的產品，歡迎舊雨新知繼續支持！</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-sm">
                         <p class="text-sm text-gray-500">2025年7月15日</p>
-                        <h4 class="font-semibold text-lg text-green-800 mt-1">【八甲德春農園】夏季採果樂，現正開放預約！</h4>
+                        <h4 class="font-semibold text-lg text-red-800 mt-1">【八甲德春農園】夏季採果樂，現正開放預約！</h4>
                         <p class="text-gray-600 mt-2">炎炎夏日何處去？快來八甲德春農園體驗親子採果樂，現採現吃最新鮮！名額有限，請儘速預約。</p>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white">
+    <footer class="bg-red-900 text-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
             <p>&copy; 2025 新住民好物網. All Rights Reserved.</p>
             <p class="mt-2 text-sm text-gray-400">一個支持在地新住民微型創業的平台</p>
@@ -180,7 +180,7 @@
 
     <!-- AI Chat Modal -->
     <div id="ai-chat-modal" class="fixed bottom-5 right-5 w-80 bg-white rounded-lg shadow-2xl z-50 hidden flex-col">
-        <div class="flex justify-between items-center p-3 bg-green-700 text-white rounded-t-lg">
+        <div class="flex justify-between items-center p-3 bg-red-700 text-white rounded-t-lg">
             <h4 class="font-bold">AI智能客服</h4>
             <button id="close-chat-modal" class="text-white hover:text-gray-200">&times;</button>
         </div>
@@ -194,7 +194,7 @@
     <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-xl p-6 text-center w-full max-w-sm">
             <p id="message-text" class="text-lg mb-4"></p>
-            <button id="close-message-modal" class="bg-green-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-800">確定</button>
+            <button id="close-message-modal" class="bg-red-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-800">確定</button>
         </div>
     </div>
 
@@ -489,7 +489,7 @@
         // --- 樣式注入 ---
         const style = document.createElement('style');
         style.textContent = `
-            .section-title { font-size: 1.25rem; font-weight: 600; color: #166534; border-left: 4px solid #15803d; padding-left: 0.75rem; margin-bottom: 0.75rem; }
+            .section-title { font-size: 1.25rem; font-weight: 600; color: #9f1239; border-left: 4px solid #be123c; padding-left: 0.75rem; margin-bottom: 0.75rem; }
             .add-to-cart-btn, .ai-chat-btn, .line-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.2s; }
             .add-to-cart-btn { background-color: #f59e0b; color: white; }
             .add-to-cart-btn:hover { background-color: #d97706; }
@@ -651,3 +651,4 @@
     </script>
 </body>
 </html>
+" selected by the user. please make the following edit: "請把網站改為藍底, 比較
