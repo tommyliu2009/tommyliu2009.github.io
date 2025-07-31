@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新住民好物網</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+        .modal-content::-webkit-scrollbar, .chat-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-content::-webkit-scrollbar-track, .chat-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .modal-content::-webkit-scrollbar-thumb, .chat-body::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        .modal-content::-webkit-scrollbar-thumb:hover, .chat-body::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1524055988899-b3616f84a22b?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .chat-bubble-user {
+            background-color: #DCF8C6;
+        }
+        .chat-bubble-ai {
+            background-color: #ECECEC;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-green-800">新住民好物網</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#products" class="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium">在地好物</a>
+                    <a href="#services" class="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium">專業服務</a>
+                    <a href="#farms" class="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium">休閒體驗</a>
+                    <a href="#news" class="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-sm font-medium">最新消息</a>
+                </div>
+                <div class="relative">
+                    <button id="cart-button" class="text-gray-600 hover:text-green-700">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg text-white relative">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">品味多元文化，支持在地創業</h1>
+                <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto">匯集苗栗新住民的匠心之作、專業服務與田園風光，探索她們在這片土地上綻放的精彩故事。</p>
+            </div>
+        </section>
+
+        <!-- Brands Sections -->
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+            
+            <!-- 在地好物 -->
+            <section id="products">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">在地好物</h2>
+                <p class="text-center text-gray-500 mb-12">來自家鄉的傳統手藝，結合苗栗在地食材，創造出獨一無二的美味。</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="guifei">
+                        <img src="https://images.unsplash.com/photo-1600155513043-994206a55227?q=80&w=800&auto=format&fit=crop" alt="桂妃油茶" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">桂妃油茶</h3><p class="mt-2 text-gray-600">傳承印尼家傳秘方，溫潤滋補的黃金茶油。</p></div>
+                    </div>
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="lihong-turmeric">
+                        <img src="https://images.unsplash.com/photo-1598556138259-d7312136916c?q=80&w=800&auto=format&fit=crop" alt="利紅薑黃" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">利紅薑黃</h3><p class="mt-2 text-gray-600">自然農法栽種，SGS認證的優質薑黃產品。</p></div>
+                    </div>
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="chunyu-dumpling">
+                        <img src="https://images.unsplash.com/photo-1597193459197-038176355998?q=80&w=800&auto=format&fit=crop" alt="春雨水餃" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">春雨水餃</h3><p class="mt-2 text-gray-600">皮薄餡大，每一口都是媽媽的思鄉味。</p></div>
+                    </div>
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="xiuzhen-meal">
+                        <img src="https://images.unsplash.com/photo-1625944026282-111181163b26?q=80&w=800&auto=format&fit=crop" alt="秀珍月子餐" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">秀珍月子餐</h3><p class="mt-2 text-gray-600">傳統與營養結合，為產後媽媽提供最佳照護。</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 專業服務 -->
+            <section id="services">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">專業服務</h2>
+                <p class="text-center text-gray-500 mb-12">以專業與熱忱，提供最貼心可靠的在地服務。</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="jinshan-insurance">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop" alt="金珊保險" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">金珊保險顧問</h3><p class="mt-2 text-gray-600">為您與您的家庭，量身打造最合適的保障。</p></div>
+                    </div>
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="xiuzhen-care">
+                        <img src="https://images.unsplash.com/photo-1619474811336-72c114e4121a?q=80&w=800&auto=format&fit=crop" alt="秀珍做月子" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">秀珍做月子服務</h3><p class="mt-2 text-gray-600">經驗豐富的到府月嫂，給媽媽與寶寶最溫柔的呵護。</p></div>
+                    </div>
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="lihong-nanny">
+                        <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=800&auto=format&fit=crop" alt="利紅保母" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">利紅保母服務</h3><p class="mt-2 text-gray-600">愛心與耐心兼具，讓家長安心的托育選擇。</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 休閒體驗 -->
+            <section id="farms">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">休閒體驗</h2>
+                <p class="text-center text-gray-500 mb-12">走進苗栗的山林與田野，感受新住民打造的慢活時光。</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="bajia-farm">
+                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=800&auto=format&fit=crop" alt="八甲德春農園" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">八甲德春農園</h3><p class="mt-2 text-gray-600">親子採果樂，體驗農夫日常與自然共生。</p></div>
+                    </div>
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="fengxing-villa">
+                        <img src="https://images.unsplash.com/photo-1518542568095-b8a7418a5595?q=80&w=800&auto=format&fit=crop" alt="鳳形山莊" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">鳳形山莊休閒農場</h3><p class="mt-2 text-gray-600">山林間的秘境，品嚐道地的印尼風味餐。</p></div>
+                    </div>
+                    <div class="brand-card cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300" data-brand="maoli-hill">
+                        <img src="https://images.unsplash.com/photo-1576092762791-d02d21c43714?q=80&w=800&auto=format&fit=crop" alt="貓裏山丘" class="w-full h-48 object-cover">
+                        <div class="p-6"><h3 class="text-xl font-semibold text-gray-900">貓裏山丘茶作坊</h3><p class="mt-2 text-gray-600">在茶香中靜心，體驗手作茶的溫度與樂趣。</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 最新消息 -->
+            <section id="news" class="bg-green-50 rounded-lg p-8 md:p-12">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">最新消息</h2>
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-sm text-gray-500">2025年7月28日</p>
+                        <h4 class="font-semibold text-lg text-green-800 mt-1">恭喜【利紅薑黃】通過2025年度SGS檢驗！</h4>
+                        <p class="text-gray-600 mt-2">利紅薑黃持續為食安把關，提供消費者最安心的產品，歡迎舊雨新知繼續支持！</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-sm text-gray-500">2025年7月15日</p>
+                        <h4 class="font-semibold text-lg text-green-800 mt-1">【八甲德春農園】夏季採果樂，現正開放預約！</h4>
+                        <p class="text-gray-600 mt-2">炎炎夏日何處去？快來八甲德春農園體驗親子採果樂，現採現吃最新鮮！名額有限，請儘速預約。</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+            <p>&copy; 2025 新住民好物網. All Rights Reserved.</p>
+            <p class="mt-2 text-sm text-gray-400">一個支持在地新住民微型創業的平台</p>
+        </div>
+    </footer>
+
+    <!-- Main Modal -->
+    <div id="brand-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-800"></h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+            <div id="modal-content" class="p-6 md:p-8 overflow-y-auto modal-content"></div>
+        </div>
+    </div>
+
+    <!-- AI Chat Modal -->
+    <div id="ai-chat-modal" class="fixed bottom-5 right-5 w-80 bg-white rounded-lg shadow-2xl z-50 hidden flex-col">
+        <div class="flex justify-between items-center p-3 bg-green-700 text-white rounded-t-lg">
+            <h4 class="font-bold">AI智能客服</h4>
+            <button id="close-chat-modal" class="text-white hover:text-gray-200">&times;</button>
+        </div>
+        <div id="chat-body" class="p-4 h-80 overflow-y-auto chat-body"></div>
+        <div class="p-2 border-t">
+            <p class="text-xs text-center text-gray-400">此為模擬對話，請選擇下方按鈕互動</p>
+        </div>
+    </div>
+    
+    <!-- Message Modal for alerts -->
+    <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl p-6 text-center w-full max-w-sm">
+            <p id="message-text" class="text-lg mb-4"></p>
+            <button id="close-message-modal" class="bg-green-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-800">確定</button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- 全域變數 ---
+        let cart = [];
+        const brandModal = document.getElementById('brand-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalBtn = document.getElementById('close-modal');
+        const brandCards = document.querySelectorAll('.brand-card');
+        const cartButton = document.getElementById('cart-button');
+        const cartCount = document.getElementById('cart-count');
+        const aiChatModal = document.getElementById('ai-chat-modal');
+        const closeChatModalBtn = document.getElementById('close-chat-modal');
+        const chatBody = document.getElementById('chat-body');
+        const messageModal = document.getElementById('message-modal');
+        const messageText = document.getElementById('message-text');
+        const closeMessageModalBtn = document.getElementById('close-message-modal');
+
+        // --- 品牌資料庫 ---
+        const brandData = {
+            'guifei': {
+                title: '桂妃油茶',
+                type: 'product',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1600155513043-994206a55227?q=80&w=800&auto=format&fit=crop" alt="桂妃油茶" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">品牌故事</h4>
+                            <p class="text-gray-700">來自印尼的桂妃，帶著母親傳承的油茶秘方來到苗栗。她發現苗栗的苦茶籽品質優良，便結合家鄉的傳統工法與在地食材，創立了「桂妃油茶」。每一滴油茶都蘊含著她對母親的思念，以及對這片新家園的熱愛。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">商品列表</h4>
+                            <div class="space-y-4">
+                                <div class="product-item" data-id="guifei-01" data-name="經典原味油茶" data-price="800">
+                                    <p><b>經典原味油茶:</b> 溫潤順口，適合拌麵線、燉雞湯。 (NT$ 800)</p>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <input type="number" value="1" min="1" class="w-16 text-center border rounded">
+                                        <button class="add-to-cart-btn"><i class="fas fa-cart-plus mr-2"></i>加入購物車</button>
+                                    </div>
+                                </div>
+                                <div class="product-item" data-id="guifei-02" data-name="薑味暖心油茶" data-price="850">
+                                    <p><b>薑味暖心油茶:</b> 添加老薑精華，驅寒暖身。 (NT$ 850)</p>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <input type="number" value="1" min="1" class="w-16 text-center border rounded">
+                                        <button class="add-to-cart-btn"><i class="fas fa-cart-plus mr-2"></i>加入購物車</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            'lihong-turmeric': {
+                title: '利紅薑黃',
+                type: 'product',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1598556138259-d7312136916c?q=80&w=800&auto=format&fit=crop" alt="利紅薑黃" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">品牌故事</h4>
+                            <p class="text-gray-700">利紅堅持有機農法，在苗栗的好山好水中培育出最優質的紅薑黃。她相信，土地給予我們最好的禮物，我們就該用最純淨的方式回饋。從種植、採收、研磨到包裝，全程親自把關，只為給顧客最安心的保健聖品。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">商品列表</h4>
+                            <div class="space-y-4">
+                                <div class="product-item" data-id="lihong-01" data-name="特級紅薑黃粉" data-price="450">
+                                    <p><b>特級紅薑黃粉 (150g):</b> 薑黃素含量高，香氣濃郁。 (NT$ 450)</p>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <input type="number" value="1" min="1" class="w-16 text-center border rounded">
+                                        <button class="add-to-cart-btn"><i class="fas fa-cart-plus mr-2"></i>加入購物車</button>
+                                    </div>
+                                </div>
+                                <div class="product-item" data-id="lihong-02" data-name="薑黃素膠囊" data-price="980">
+                                    <p><b>薑黃素膠囊 (60顆/瓶):</b> 方便攜帶，每日保健首選。 (NT$ 980)</p>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <input type="number" value="1" min="1" class="w-16 text-center border rounded">
+                                        <button class="add-to-cart-btn"><i class="fas fa-cart-plus mr-2"></i>加入購物車</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            'chunyu-dumpling': {
+                title: '春雨水餃',
+                type: 'product',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1597193459197-038176355998?q=80&w=800&auto=format&fit=crop" alt="春雨水餃" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                             <h4 class="section-title">品牌故事</h4>
+                             <p class="text-gray-700">春雨來自中國北方，水餃是她最深切的家鄉記憶。為了讓孩子們也能嚐到道地的家鄉味，她開始研究如何用台灣在地的新鮮豬肉和蔬菜，包出記憶中的味道。沒想到大受好評，從此，「春雨水餃」成了社區裡最溫暖的美味。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">商品列表</h4>
+                            <div class="space-y-4">
+                                <div class="product-item" data-id="chunyu-01" data-name="高麗菜豬肉水餃" data-price="300">
+                                    <p><b>高麗菜豬肉水餃 (50顆/包):</b> 經典口味，清甜爽口。 (NT$ 300)</p>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <input type="number" value="1" min="1" class="w-16 text-center border rounded">
+                                        <button class="add-to-cart-btn"><i class="fas fa-cart-plus mr-2"></i>加入購物車</button>
+                                    </div>
+                                </div>
+                                <div class="product-item" data-id="chunyu-02" data-name="韭菜豬肉水餃" data-price="300">
+                                    <p><b>韭菜豬肉水餃 (50顆/包):</b> 香氣濃郁，老饕最愛。 (NT$ 300)</p>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <input type="number" value="1" min="1" class="w-16 text-center border rounded">
+                                        <button class="add-to-cart-btn"><i class="fas fa-cart-plus mr-2"></i>加入購物車</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            'xiuzhen-meal': {
+                title: '秀珍月子餐',
+                type: 'product',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1625944026282-111181163b26?q=80&w=800&auto=format&fit=crop" alt="秀珍月子餐" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">品牌故事</h4>
+                            <p class="text-gray-700">來自越南的秀珍，嫁到台灣後，深刻體會到坐月子的重要性。她將越南家鄉的藥草燉補智慧，與台灣傳統的麻油料理結合，創造出兼具美味與調養功效的月子餐。她堅持每日親選新鮮食材，細火慢燉，希望每位媽媽都能在產後得到最溫暖的呵護。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">餐點方案</h4>
+                             <div class="product-item" data-id="xiuzhen-30" data-name="30日頂級月子餐" data-price="60000">
+                                <p><b>30日頂級月子餐:</b> 包含每日三餐正餐、兩份點心，專人每日新鮮配送。 (NT$ 60,000)</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <p class="text-sm text-gray-500">此為客製化服務，請洽客服</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-buttons">
+                            <button class="ai-chat-btn"><i class="fas fa-robot mr-2"></i>AI智能客服</button>
+                            <a href="https://line.me/ti/p/" target="_blank" class="line-btn"><i class="fab fa-line mr-2"></i>加Line好友</a>
+                        </div>
+                    </div>`
+            },
+            'jinshan-insurance': {
+                title: '金珊保險顧問',
+                type: 'service',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop" alt="金珊保險" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">顧問介紹</h4>
+                            <p class="text-gray-700">來自菲律賓的金珊，深知異鄉打拼的不易與風險。她憑藉著對保險的專業與熱忱，致力於為新住民家庭提供最清晰、最合適的財務保障規劃。她相信，一份好的保單，不只是合約，更是對家人最堅實的承諾。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">服務項目</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><b>家庭責任險規劃：</b>守護您的家庭，避免意外風險。</li>
+                                <li><b>個人與家庭醫療險：</b>提供完善的健康後盾。</li>
+                                <li><b>子女教育金與退休儲蓄規劃：</b>為未來做好萬全準備。</li>
+                            </ul>
+                        </div>
+                        <div class="contact-buttons">
+                            <button class="ai-chat-btn"><i class="fas fa-robot mr-2"></i>AI智能客服</button>
+                            <a href="https://line.me/ti/p/" target="_blank" class="line-btn"><i class="fab fa-line mr-2"></i>加Line好友</a>
+                        </div>
+                    </div>`
+            },
+            'xiuzhen-care': {
+                title: '秀珍做月子服務',
+                type: 'service',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1619474811336-72c114e4121a?q=80&w=800&auto=format&fit=crop" alt="秀珍做月子" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">服務理念</h4>
+                            <p class="text-gray-700">擁有合格月嫂證照的秀珍，提供專業的到府坐月子服務。她不僅是產婦的照護者，更是溫暖的陪伴者。從新生兒的沐浴、餵奶，到產婦的傷口護理、心靈支持，秀珍都以無比的愛心與耐心，陪伴媽媽們度過最重要的第一個月。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">服務內容</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><b>到府服務時段：</b>提供9小時或24小時兩種選擇。</li>
+                                <li><b>新生兒照顧：</b>洗澡、按摩、口腔清潔、臍帶護理。</li>
+                                <li><b>產婦照護：</b>擦澡、乳房護理、子宮按摩、月子餐製作。</li>
+                                <li><b>服務區域：</b>苗栗縣全區（偏遠地區酌收交通費）。</li>
+                            </ul>
+                        </div>
+                        <div class="contact-buttons">
+                            <button class="ai-chat-btn"><i class="fas fa-robot mr-2"></i>AI智能客服</button>
+                            <a href="https://line.me/ti/p/" target="_blank" class="line-btn"><i class="fab fa-line mr-2"></i>加Line好友</a>
+                        </div>
+                    </div>`
+            },
+            'lihong-nanny': {
+                title: '利紅保母服務',
+                type: 'service',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=800&auto=format&fit=crop" alt="利紅保母" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">保母介紹</h4>
+                            <p class="text-gray-700">同樣來自越南的利紅，是位領有專業證照的保母。她將對自家孩子的愛，延伸到每個托育的寶寶身上。她打造了一個安全、舒適且充滿童趣的托育環境，並採用蒙特梭利教學法，啟發孩子們的無限潛能，是讓家長能安心托付的最佳選擇。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">服務資訊</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><b>托育類型：</b>提供日間托育、半日托育與臨時托育。</li>
+                                <li><b>環境設施：</b>獨立遊戲室、安全防護設施、每日環境消毒。</li>
+                                <li><b>教學理念：</b>透過遊戲學習，注重感覺統合與生活自理能力培養。</li>
+                            </ul>
+                        </div>
+                        <div class="contact-buttons">
+                            <button class="ai-chat-btn"><i class="fas fa-robot mr-2"></i>AI智能客服</button>
+                            <a href="https://line.me/ti/p/" target="_blank" class="line-btn"><i class="fab fa-line mr-2"></i>加Line好友</a>
+                        </div>
+                    </div>`
+            },
+            'bajia-farm': {
+                title: '八甲德春農園',
+                type: 'farm',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=800&auto=format&fit=crop" alt="八甲德春農園" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">農園故事</h4>
+                            <p class="text-gray-700">由台灣丈夫與越南妻子共同經營的「八甲德春農園」，是一座充滿愛的有機園地。他們堅持不用農藥，以友善農法栽種出四季的鮮甜蔬果。這裡不僅是農場，更是一個食農教育的基地，歡迎大小朋友一起來體驗採果樂趣，感受土地的生命力。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">體驗活動</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><b>四季採果樂：</b>冬季草莓、夏季番茄、秋季柑橘。</li>
+                                <li><b>客家米食DIY：</b>親手製作傳統客家麻糬或菜包。</li>
+                                <li><b>農園導覽：</b>認識有機耕作與田間生態。</li>
+                                <li><b>營業時間：</b>週六、日 09:00 - 17:00 (平日僅接受團體預約)</li>
+                            </ul>
+                        </div>
+                        <div class="contact-buttons">
+                            <button class="ai-chat-btn"><i class="fas fa-robot mr-2"></i>AI智能客服</button>
+                            <a href="https://line.me/ti/p/" target="_blank" class="line-btn"><i class="fab fa-line mr-2"></i>加Line好友預約</a>
+                        </div>
+                    </div>`
+            },
+            'fengxing-villa': {
+                title: '鳳形山莊休閒農場',
+                type: 'farm',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1518542568095-b8a7418a5595?q=80&w=800&auto=format&fit=crop" alt="鳳形山莊" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">山莊故事</h4>
+                            <p class="text-gray-700">來自印尼的莊主，因為思念家鄉的風景與美食，在苗栗的山林間打造了這座充滿南洋風情的「鳳形山莊」。這裡不僅有絕美的山景，更有她親手烹煮的道地印尼料理。她希望每位來訪的旅客，都能在此放下煩憂，享受一場味蕾與心靈的饗宴。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">特色推薦</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><b>印尼風味餐：</b>必點仁當牛肉、巴東雞、沙嗲烤肉串。</li>
+                                <li><b>山景咖啡座：</b>在蟲鳴鳥叫中，品嚐一杯香醇的印尼咖啡。</li>
+                                <li><b>手作體驗：</b>不定期開設印尼蠟染或香料教學課程。</li>
+                                <li><b>預約資訊：</b>用餐與體驗皆須提前一日預約。</li>
+                            </ul>
+                        </div>
+                        <div class="contact-buttons">
+                            <button class="ai-chat-btn"><i class="fas fa-robot mr-2"></i>AI智能客服</button>
+                            <a href="https://line.me/ti/p/" target="_blank" class="line-btn"><i class="fab fa-line mr-2"></i>加Line好友預約</a>
+                        </div>
+                    </div>`
+            },
+            'maoli-hill': {
+                title: '貓裏山丘茶作坊',
+                type: 'farm',
+                content: `
+                    <img src="https://images.unsplash.com/photo-1576092762791-d02d21c43714?q=80&w=800&auto=format&fit=crop" alt="貓裏山丘" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="section-title">作坊故事</h4>
+                            <p class="text-gray-700">來自日本的茶道愛好者，在一次旅行中，被苗栗的東方美人茶深深吸引，毅然決定在此落地生根。她結合日本茶道的細膩精神與台灣茶的醇厚底蘊，創立了「貓裏山丘茶作坊」。她希望透過一杯茶，傳遞靜心與分享的喜悅。</p>
+                        </div>
+                        <div>
+                            <h4 class="section-title">品茗體驗</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><b>東方美人茶品茗會：</b>由主人親自展演泡茶工序，品味茶湯的層次。</li>
+                                <li><b>手炒綠茶體驗：</b>從採摘到殺菁、揉捻，感受製茶的溫度。</li>
+                                <li><b>日式和菓子搭配：</b>提供搭配茶品的精緻手作和菓子。</li>
+                                <li><b>預約資訊：</b>所有體驗皆採預約制，以確保品質。</li>
+                            </ul>
+                        </div>
+                        <div class="contact-buttons">
+                            <button class="ai-chat-btn"><i class="fas fa-robot mr-2"></i>AI智能客服</button>
+                            <a href="https://line.me/ti/p/" target="_blank" class="line-btn"><i class="fab fa-line mr-2"></i>加Line好友預約</a>
+                        </div>
+                    </div>`
+            },
+        };
+
+        // --- 樣式注入 ---
+        const style = document.createElement('style');
+        style.textContent = `
+            .section-title { font-size: 1.25rem; font-weight: 600; color: #166534; border-left: 4px solid #15803d; padding-left: 0.75rem; margin-bottom: 0.75rem; }
+            .add-to-cart-btn, .ai-chat-btn, .line-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.2s; }
+            .add-to-cart-btn { background-color: #f59e0b; color: white; }
+            .add-to-cart-btn:hover { background-color: #d97706; }
+            .contact-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+            .ai-chat-btn { background-color: #2563eb; color: white; }
+            .ai-chat-btn:hover { background-color: #1d4ed8; }
+            .line-btn { background-color: #06c755; color: white; }
+            .line-btn:hover { background-color: #04a545; }
+        `;
+        document.head.appendChild(style);
+
+        // --- 函數 ---
+        function showMessage(message) {
+            messageText.textContent = message;
+            messageModal.classList.remove('hidden');
+            messageModal.classList.add('flex');
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        function addToCart(productId, productName, productPrice, quantity) {
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ id: productId, name: productName, price: productPrice, quantity: quantity });
+            }
+            updateCartCount();
+            showMessage(`「${productName}」x ${quantity} 已成功加入購物車！`);
+        }
+        
+        function openModal(brandId) {
+            const data = brandData[brandId];
+            if (data) {
+                modalTitle.textContent = data.title;
+                modalContent.innerHTML = data.content;
+                brandModal.classList.remove('hidden');
+                brandModal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            brandModal.classList.add('hidden');
+            brandModal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        function startAiChat(brandName) {
+            closeModal();
+            aiChatModal.classList.remove('hidden');
+            aiChatModal.classList.add('flex');
+            chatBody.innerHTML = `
+                <div class="chat-bubble-ai p-2 rounded-lg self-start max-w-xs mb-2">您好！我是${brandName}的AI客服，請問有什麼可以為您服務的嗎？</div>
+                <div class="flex flex-col items-center gap-2 mt-4">
+                    <button class="chat-option-btn" data-question="我想了解服務內容">我想了解服務內容</button>
+                    <button class="chat-option-btn" data-question="如何收費？">如何收費？</button>
+                    <button class="chat-option-btn" data-question="如何預約？">如何預約？</button>
+                </div>
+            `;
+        }
+
+        function handleChatOption(question, brandName) {
+            const userBubble = `<div class="chat-bubble-user p-2 rounded-lg self-end max-w-xs mb-2 ml-auto">${question}</div>`;
+            chatBody.querySelector('.flex').remove(); // 移除選項按鈕
+            chatBody.insertAdjacentHTML('beforeend', userBubble);
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            setTimeout(() => {
+                let aiResponse = '';
+                switch(question) {
+                    case '我想了解服務內容':
+                        aiResponse = `我們主要的服務項目都詳細列在介紹頁面囉！如果您有更具體的問題，建議可以直接加Line與專人聯繫，可以獲得最詳盡的答覆！`;
+                        break;
+                    case '如何收費？':
+                        aiResponse = `收費會因您選擇的具體服務方案而異。為了給您最準確的報價，建議加Line與我們討論您的需求，專員會為您量身打造最適合的方案！`;
+                        break;
+                    case '如何預約？':
+                        aiResponse = `很高興您對我們的服務感興趣！最快的方式是透過Line與我們聯繫，告知您希望預約的服務與時間，我們會立即為您處理！`;
+                        break;
+                }
+                const aiBubble = `<div class="chat-bubble-ai p-2 rounded-lg self-start max-w-xs mb-2">${aiResponse}</div>`;
+                chatBody.insertAdjacentHTML('beforeend', aiBubble);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 1000);
+        }
+
+        // --- 事件監聽 ---
+        brandCards.forEach(card => {
+            card.addEventListener('click', () => openModal(card.dataset.brand));
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+        brandModal.addEventListener('click', (event) => {
+            if (event.target === brandModal) closeModal();
+        });
+
+        modalContent.addEventListener('click', function(event) {
+            if (event.target.closest('.add-to-cart-btn')) {
+                const button = event.target.closest('.add-to-cart-btn');
+                const itemDiv = button.closest('.product-item');
+                const id = itemDiv.dataset.id;
+                const name = itemDiv.dataset.name;
+                const price = parseInt(itemDiv.dataset.price);
+                const quantity = parseInt(itemDiv.querySelector('input').value);
+                addToCart(id, name, price, quantity);
+            }
+            if (event.target.closest('.ai-chat-btn')) {
+                const brandName = modalTitle.textContent;
+                startAiChat(brandName);
+            }
+        });
+
+        cartButton.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showMessage('您的購物車是空的喔！');
+                return;
+            }
+            let cartContent = '<ul class="text-left space-y-2">';
+            let total = 0;
+            cart.forEach(item => {
+                cartContent += `<li>${item.name} x ${item.quantity} - NT$ ${item.price * item.quantity}</li>`;
+                total += item.price * item.quantity;
+            });
+            cartContent += `</ul><hr class="my-4"><p class="text-right font-bold">總計: NT$ ${total}</p>`;
+            cartContent += `<p class="text-xs text-gray-500 mt-4">此為模擬結帳流程，感謝您的支持！</p>`;
+            showMessage(cartContent);
+            messageText.innerHTML = cartContent; // Use innerHTML for formatted content
+            messageModal.classList.remove('hidden');
+            messageModal.classList.add('flex');
+        });
+
+        closeChatModalBtn.addEventListener('click', () => aiChatModal.classList.add('hidden'));
+        
+        chatBody.addEventListener('click', function(event) {
+            if (event.target.classList.contains('chat-option-btn')) {
+                const question = event.target.dataset.question;
+                const brandName = aiChatModal.querySelector('.chat-bubble-ai').textContent.match(/我是(.*?)的AI客服/)[1];
+                handleChatOption(question, brandName);
+            }
+        });
+        
+        closeMessageModalBtn.addEventListener('click', () => {
+             messageModal.classList.add('hidden');
+             messageText.innerHTML = ''; // Clear content
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (!brandModal.classList.contains('hidden')) closeModal();
+                if (!aiChatModal.classList.contains('hidden')) aiChatModal.classList.add('hidden');
+                if (!messageModal.classList.contains('hidden')) messageModal.classList.add('hidden');
+            }
+        });
+
+    </script>
+</body>
+</html>
