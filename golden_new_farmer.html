@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黃金新農 - 苗栗公館鄉整合性農業實體戰略藍圖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Zhi+Mang+Xing&display=swap');
+
+        :root {
+            --primary-color: #DAA520; /* Goldenrod */
+            --secondary-color: #2E8B57; /* SeaGreen */
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --text-color: #555;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--light-color);
+        }
+
+       .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--dark-color);
+            color: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            user-select: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+       .hero {
+            height: 60vh;
+            min-height: 400px;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+       .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            line-height: 1.2;
+        }
+
+       .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        section:nth-child(even) {
+            background: var(--card-bg);
+        }
+
+        h2.section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+            position: relative;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h2.section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        h3:first-child {
+            margin-top: 0;
+        }
+
+       .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+       .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+       .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+       .card h4 {
+            font-size: 1.4rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+        
+       .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+       .pillar-card {
+            background: var(--card-bg);
+            padding: 2rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary-color);
+        }
+
+       .pillar-card .icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+       .pillar-card h4 {
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+       .image-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+       .showcase-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+       }
+       
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-color);
+        }
+        
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+        
+        ul.timeline {
+            list-style-type: none;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        ul.timeline::before {
+            content: ' ';
+            background: #d4d9df;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            z-index: 400;
+        }
+        
+        ul.timeline > li {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        ul.timeline > li::before {
+            content: ' ';
+            background: var(--primary-color);
+            display: inline-block;
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid var(--secondary-color);
+            left: -9px;
+            width: 20px;
+            height: 20px;
+            z-index: 400;
+        }
+        
+        ul.timeline li strong {
+            color: var(--dark-color);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        footer {
+            background: var(--dark-color);
+            color: #ccc;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+
+        .org-name {
+            font-family: inherit;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        @media (max-width: 992px) {
+           .grid-3, .image-showcase {
+                grid-template-columns: 1fr;
+            }
+           .showcase-img {
+               order: -1; /* Place image before text on mobile */
+               margin-bottom: 2rem;
+               height: 250px;
+           }
+           .hero h2 {
+                font-size: 2.5rem;
+            }
+            .header-container {
+                flex-wrap: wrap;
+            }
+            nav {
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease-out;
+            }
+            nav.active {
+                max-height: 300px; /* Adjust as needed */
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            .hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <h1>黃金新農</h1>
+            <div class="hamburger" id="hamburger-menu">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="#vision">願景</a></li>
+                    <li><a href="#strategy">戰略基礎</a></li>
+                    <li><a href="#production">生產核心</a></li>
+                    <li><a href="#value-engine">價值引擎</a></li>
+                    <li><a href="#partners">夥伴關係</a></li>
+                    <li><a href="#roadmap">實施路徑</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <h2 style="color: var(--primary-color); text-shadow: 2px 2px 6px rgba(0,0,0,0.8);">黃金新農<br><span style="font-size: 1.5rem; font-weight: 400; letter-spacing: 2px;">Golden New Farmer</span></h2>
+        <p>苗栗公館鄉整合性農業實體戰略藍圖</p>
+        <p>打造台灣農業的新範式，一個功能完備、體系完整的「農業完全體」</p>
+    </section>
+
+    <main>
+        <section id="vision">
+            <div class="container">
+                <h2 class="section-title">第一章：願景：台灣農業的新範式</h2>
+                <p class="section-subtitle">應對「極端氣候」與「菜土菜金」挑戰的永續農業策略：建構韌性與價值的創新商業模式</p>
+                <h3>1.1. 導論：「黃金新農」作為一個農業完全體</h3>
+                <p>本計畫旨在擘劃一個名為「黃金新農」的宏大計畫，其核心目標不僅是建立一座農場，而是打造一個功能完備、體系完整的「農業完全體」。此計畫將作為一個系統性解決方案，直接應對當前台灣農業所面臨的結構性困境，包括極端氣候的威脅、市場價格的劇烈波動，以及產業鏈的價值斷裂。立足於「黃金小鎮」的深厚基礎之上，開創屬於台灣農業的「新農」未來。</p>
+                
+                <div class="pillars-grid" style="margin-top: 3rem;">
+                    <div class="pillar-card">
+                        <div class="icon">🌱</div>
+                        <h4>種植</h4>
+                        <p>導入智慧科技與永續農法，建立具備氣候韌性的高效率生產基地。</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="icon">🏭</div>
+                        <h4>加工</h4>
+                        <p>透過創新的加值策略，將農產品轉化為高附加價值的品牌商品。</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="icon">🏷️</div>
+                        <h4>品牌</h4>
+                        <p>建立蘊含文化深度與社會關懷的品牌敘事，與消費者建立情感連結。</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="icon">🏞️</div>
+                        <h4>休閒</h4>
+                        <p>結合在地觀光資源，打造沉浸式的農業體驗，開創多元營收。</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="icon">🎓</div>
+                        <h4>教育</h4>
+                        <p>成為食農教育的重要基地，向公眾傳遞永續農業的知識與價值。</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="icon">🤝</div>
+                        <h4>社群</h4>
+                        <p>深度融合在地社群，特別是新住民文化與雲林農民，實現共榮發展。</p>
+                    </div>
+                </div>
+
+                <h3>1.2. 三大戰略支柱：韌性與價值的基石</h3>
+                <div class="grid-3">
+                    <div class="card">
+                        <h4>支柱一：地理風險分散</h4>
+                        <p>將農業生產重心從氣候災害高風險區，戰略性轉移至氣候相對穩定的苗栗公館鄉，從結構上降低因天災導致的資本毀滅風險，確保長期投資的回報率與穩定性。</p>
+                    </div>
+                    <div class="card">
+                        <h4>支柱二：價格適應性價值創造</h4>
+                        <p>建立「價高售鮮、價低加工」的雙軌產銷系統，將市場價格的劇烈波動從威脅轉化為核心競爭優勢，確保在任何市場環境下都能立於不敗之地。</p>
+                    </div>
+                    <div class="card">
+                        <h4>支柱三：社會文化整合</h4>
+                        <p>深度整合公館鄉「黃金小鎮」的休閒農業資源與苗栗豐富的新住民文化資本，將企業社會責任與獨特的產品價值完美結合，創造強大的品牌故事與市場區隔。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy">
+            <div class="container">
+                <h2 class="section-title">第二章：戰略基礎：在公館鄉建立一個具韌性的企業</h2>
+                <h3>2.1. 變革的急迫性：解構氣候與市場風險</h3>
+                <p>推動「黃金新農」計畫的根本動力，源於對台灣傳統農業所面臨的雙重生存危機的深刻認知。氣候威脅與市場困境，即「菜土菜金」的暴政，嚴重抑制了農業的永續發展。將生產基地轉移至氣候相對穩定的苗栗，並建立主動適應市場價格的商業模式，是理性的、旨在確保長期資本安全與營運穩定的戰略決策。</p>
+                
+                <div style="margin-top: 3rem;">
+                    <h3>2.2. 苗栗公館鄉：戰略性的安全港</h3>
+                    <p>選擇苗栗縣公館鄉作為基地，是基於嚴謹的風險評估與資源分析。公館鄉不僅提供了氣候上的避風港，更蘊含著獨一無二的戰略合作資源。</p>
+                    <h4>氣候與地理優勢</h4>
+                    <p>相較於台灣中南部，苗栗公館鄉受颱風直接侵襲的頻率顯著較低，氣候溫和，為多種蔬菜的穩定生產提供了優越的自然條件。</p>
+                    <h4>苗栗農改場的鄰近優勢</h4>
+                    <p>本計畫最關鍵的戰略資產之一，是台灣頂尖的農業研究機構——農業部苗栗區農業改良場（簡稱<span class="org-name">苗栗農改場</span>），其場址正位於公館鄉境內。這意味著「黃金新農」將能與國家級的農業智庫進行零距離的深度合作，將其視為企業的「外部研發部門」。</p>
+                </div>
+
+                <h3>2.3. 整合人力資本：「小地主大佃農」機制的應用</h3>
+                <p>為了解決土地取得與人力來源，並具體落實將雲林農民納入計畫的目標，「黃金新農」將活用「小地主大佃農」政策與「農地銀行」平台。此模式創造了跨區域合作的共贏結構：公館鄉的地主可將土地出租獲得穩定收入與離農獎勵；來自雲林的專業農民則可承租土地，在氣候更穩定的環境中發揮其專業技術，並獲得政府的多項支持。透過「黃金新農」平台，將雲林的種植專業與苗栗的氣候韌性土地完美融合。</p>
+            </div>
+        </section>
+
+        <section id="production">
+            <div class="container">
+                <h2 class="section-title">第三章：生產核心：「黃金新農」農業專區規劃</h2>
+                <h3>3.1. 定義「農業生產專區」</h3>
+                <p>「黃金新農」的核心生產基地，將規劃為一個現代化的「農產專業區」。這是一個經過精心設計、功能分區明確、資源高效利用的綜合性農業園區，旨在打破傳統農業的零散格局，建立一個集生產、加工、物流、研發、示範與服務於一體的產業中樞。初期目標整合至少20公頃土地，種植高麗菜與青蔥作為核心原料。</p>
+                
+                <div class="image-showcase">
+                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format&fit=crop" alt="結合IoT與自動化控制的智慧農業溫網室" class="showcase-img">
+                    <div>
+                        <h3>3.2. 基礎設施：建構智慧與韌性的基石</h3>
+                        <p>園區的成功運營，依賴於一套兼具韌性與智慧的基礎設施。本計畫將大量導入前瞻技術，並善用政府補助計畫，以高性價比的方式建構一個世界級的農業生產環境。</p>
+                        <h4>實體基礎設施</h4>
+                        <p>全面採用「結構加強型溫網室設施」，其鋼骨結構經過強化，能有效抵禦強風豪雨，確保生產的穩定性。</p>
+                        <h4>智慧農業整合</h4>
+                        <p>園區將成為一個由數據驅動的智慧農業示範場域，整合物聯網(IoT)與大數據分析，實現精準管理與效率提升，涵蓋全面感知網絡、自動化環境控制、智慧化農機與中央數據決策平台。</p>
+                    </div>
+                </div>
+                 <h3>3.3. 作物與栽培策略</h3>
+                <p>作物選擇與栽培策略將緊密圍繞商業模式與在地融合。核心作物為高麗菜與青蔥，以供應加工產線。同時，將積極整合公館鄉的特色作物如紅棗與芋頭，進行產品線延伸與策略性採購。栽培管理將全面導入永續農法，初期符合「優良農業規範」(GAP)，並逐步轉型為有機農業，鞏固高端、健康的品牌形象。</p>
+            </div>
+        </section>
+
+        <section id="value-engine">
+            <div class="container">
+                <h2 class="section-title">第四章：價值引擎：從「格外品」到品牌佳餚</h2>
+                <h3>4.1. 價格適應性商業模式的實踐</h3>
+                <p>商業模式的精髓在於主動駕馭市場波動。透過量化的「價格適應性反應矩陣」，當菜價跌破成本線時，即啟動加工產線，將市場的「危機」轉化為提升加工品利潤的「轉機」。反之，當市場價格高漲時，則優先銷售生鮮產品，攫取最大利潤。這種靈活性是企業立於不敗之地的根本保障。</p>
+                
+                <h3>4.2. 產品開發：注入文化與真實性</h3>
+                <div class="image-showcase">
+                    <div>
+                        <h4>東北風味水餃：還原道地家鄉味</h4>
+                        <p>研發將聚焦於傳統工藝的細節，並優先招募來自東北地區的新住民參與研發與生產，將他們的文化記憶與烹飪技藝，轉化為產品不可複製的靈魂。</p>
+                        <h4>桂林油茶：「傳統故事，現代生產」</h4>
+                        <p>品牌行銷將圍繞「打油茶」的傳統故事展開，塑造高端、正宗的形象；同時在規模化生產中採用現代化設備，確保效率、品質與食品安全。</p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=2069&auto=format&fit=crop" alt="蘊含新住民文化故事的東北水餃" class="showcase-img">
+                </div>
+                
+                <h3>4.3. 「格外品」價值鏈：永續性的敘事</h3>
+                <p>將田間普遍存在的「格外品」（因外觀不符市場標準而被淘汰的蔬果）從農業廢棄物轉化為加工部門的核心戰略資產。此策略不僅帶來顯著的成本優勢，更為品牌提供了強而有力的永續性敘事，將「對抗食物浪費」作為品牌的核心價值主張，與具有環保意識的消費者產生強烈共鳴。</p>
+                
+                <h3>4.4. 認證之路：打造精緻彈性的加工設施</h3>
+                <p>本計畫將採取精緻且彈性的路徑，從建立靈活的廠房開始，分階段投資自動化設備，並逐步獲取HACCP與ISO 22000等頂級食品安全認證。此策略確保設施的成長與品牌的發展同步，並能靈活應對市場的多元需求，同時將最高的食安標準內化為企業文化。</p>
+            </div>
+        </section>
+
+        <section id="partners">
+            <div class="container">
+                <h2 class="section-title">第五章：建立多元夥伴關係與在地融合</h2>
+                <h3>5.1. 組織架構：協會與合作社的雙軌驅動</h3>
+                <div class="grid-3" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="card">
+                        <h4><span class="org-name">台灣黃金新農生產合作社</span></h4>
+                        <p>作為計畫的生產與經營核心，負責整合農民、管理生產專區、共同採購與運銷，並作為政府農業政策的主要執行單位。</p>
+                    </div>
+                    <div class="card">
+                        <h4><span class="org-name">台灣黃金新農協會</span></h4>
+                        <p>作為以推廣、教育及公關為宗旨的社會團體，負責品牌管理、公共關係、休閒教育活動策劃，並整合在地資源。</p>
+                    </div>
+                </div>
+
+                <h3>5.2. 建立多元戰略夥伴關係</h3>
+                <p>計畫的成功仰賴於與在地關鍵組織建立緊密的合作生態系。我們將與<span class="org-name">公館鄉農會</span>及<span class="org-name">苗栗縣農會</span>深度結盟，進行產銷合作與產能共享。同時，與<span class="org-name">苗栗縣政府農業處</span>及<span class="org-name">文化觀光局</span>進行公私協力，對接新農業政策，並共同推廣觀光旅遊，將「黃金新農」納入官方旅遊品牌，拓展國內外客源。</p>
+
+                <div style="margin-top: 3rem;">
+                    <h3>5.3. 進駐「<span class="org-name">苗栗陶瓷農創園區</span>」：打造品牌核心體驗基地</h3>
+                    <p>計畫的公共服務與體驗核心，將策略性地選址並進駐「<span class="org-name">苗栗陶瓷農創園區</span>」。此園區不僅是公館鄉的文化地標，更是一個集陶瓷藝術、農產展銷與觀光休憩於一體的人潮聚集地。</p>
+                    <p>選擇此處作為基地，能共享人流紅利、產生產業協同效應，並利用其完善的公共設施。「黃金新農」將在此設立旗艦體驗中心，成為對外展示品牌形象、溝通永續理念的最重要窗口。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="roadmap">
+            <div class="container">
+                <h2 class="section-title">第六章：實施路徑圖與風險緩解</h2>
+                <h3>6.1. 分階段實施時程</h3>
+                <ul class="timeline">
+                    <li>第一年（奠基期）：組織建制（成立合作社與協會）、產品開發與市場驗證、苗栗基地建設與試種。</li>
+                    <li>第二年（建置期）：加工產能建置與初期生產、通路拓展與休閒試營運。</li>
+                    <li>第三至四年（擴張期）：產能擴張與市場深化、啟動HACCP與ISO 22000認證、品牌提升。</li>
+                    <li>第五年及以後（領導期）：全面規模化與品牌領導，將「黃金新農」打造成為台灣永續農業的標竿品牌。</li>
+                </ul>
+                <h3>6.2. 財務框架與補助策略</h3>
+                <p>財務模型建立在多元化收入（生鮮銷售、加工品B2B/D2C、休閒教育服務）與策略性運用政府資源的雙重基礎之上。透過對土地成本、農業資本支出、加工資本支出的「三重財務槓桿」式綜合運用，將顯著降低現金流壓力，縮短投資回收期。</p>
+                <h3 style="margin-top: 3rem;">6.3. 全方位風險評估與緩解</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>風險類別</th>
+                            <th>具體風險描述</th>
+                            <th>緩解策略</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>農業風險</td>
+                            <td>遭遇異常天災或病蟲害爆發，導致作物歉收。</td>
+                            <td>與<span class="org-name">苗栗農改場</span>緊密合作、投保農業保險、建立多點分區種植。</td>
+                        </tr>
+                        <tr>
+                            <td>市場風險</td>
+                            <td>加工產品市場接受度不如預期，或出現強大競爭對手。</td>
+                            <td>嚴格執行市場測試、建立靈活產品開發管線、採取混合通路策略。</td>
+                        </tr>
+                        <tr>
+                            <td>營運風險</td>
+                            <td>管理能力無法跟上規模擴張，或合作社/協會內部治理不善。</td>
+                            <td>分階段擴張、引進專業人才、導入SOP與數位化管理系統、建立透明治理架構。</td>
+                        </tr>
+                        <tr>
+                            <td>社會風險</td>
+                            <td>未能有效融入在地社群，與現有業者產生摩擦。</td>
+                            <td>將「合作共榮」作為核心原則、優先聘用在地居民、定期舉辦社區溝通會議。</td>
+                        </tr>
+                        <tr>
+                            <td>財務風險</td>
+                            <td>現金流管理不善，或政府補助申請失敗。</td>
+                            <td>建立詳細現金流預測模型、將補助申請作為核心財務策略、保持多元化融資渠道。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 黃金新農 | <span class="org-name">台灣黃金新農協會</span> & <span class="org-name">台灣黃金新農生產合作社</span></p>
+            <p>獨特的台灣韌性農業</p>
+        </div>
+    </footer>
+    
+    <script>
+        const hamburger = document.getElementById('hamburger-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when a link is clicked
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
