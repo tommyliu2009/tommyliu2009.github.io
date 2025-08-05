@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新嘉人創業培力站 - 點亮您的創業夢想</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+        }
+        .bg-hero-pattern {
+            background-image: url('https://placehold.co/1920x1080/0694a2/0694a2');
+            background-size: cover;
+            background-position: center;
+        }
+        .tab-active {
+            border-bottom: 2px solid #0694a2;
+            color: #0694a2;
+            font-weight: 700;
+        }
+        .tab-inactive {
+            color: #6B7280;
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-50" x-data="{ activePage: 'home', mobileMenuOpen: false }">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" @click.prevent="activePage = 'home'" class="text-2xl font-bold text-teal-600">
+                新嘉人創業培力站
+            </a>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#" @click.prevent="activePage = 'home'" :class="{ 'text-teal-600 font-bold': activePage === 'home', 'text-gray-600 hover:text-teal-600': activePage !== 'home' }">首頁</a>
+                <a href="#" @click.prevent="activePage = 'about'" :class="{ 'text-teal-600 font-bold': activePage === 'about', 'text-gray-600 hover:text-teal-600': activePage !== 'about' }">關於我們</a>
+                <a href="#" @click.prevent="activePage = 'program'" :class="{ 'text-teal-600 font-bold': activePage === 'program', 'text-gray-600 hover:text-teal-600': activePage !== 'program' }">育成計畫</a>
+                <a href="#" @click.prevent="activePage = 'themes'" :class="{ 'text-teal-600 font-bold': activePage === 'themes', 'text-gray-600 hover:text-teal-600': activePage !== 'themes' }">創業主題</a>
+                <a href="#" @click.prevent="activePage = 'contact'" class="bg-teal-500 text-white px-4 py-2 rounded-full hover:bg-teal-600 transition">聯絡我們</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-600 hover:text-teal-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false" class="md:hidden bg-white border-t">
+            <a href="#" @click.prevent="activePage = 'home'; mobileMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-teal-50">首頁</a>
+            <a href="#" @click.prevent="activePage = 'about'; mobileMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-teal-50">關於我們</a>
+            <a href="#" @click.prevent="activePage = 'program'; mobileMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-teal-50">育成計畫</a>
+            <a href="#" @click.prevent="activePage = 'themes'; mobileMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-teal-50">創業主題</a>
+            <a href="#" @click.prevent="activePage = 'contact'; mobileMenuOpen = false" class="block px-6 py-3 bg-teal-500 text-white text-center m-4 rounded-full hover:bg-teal-600 transition">聯絡我們</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <div x-show="activePage === 'home'" x-cloak>
+            <!-- Hero Section -->
+            <section class="bg-hero-pattern text-white relative">
+                <div class="absolute inset-0 bg-black opacity-40"></div>
+                <div class="container mx-auto px-6 py-32 text-center relative z-10">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4">新嘉人創業培力站</h1>
+                    <p class="text-lg md:text-2xl mb-8">成為嘉義縣新住民創業家的首選育成平台，將文化遺產轉化為永續商業。</p>
+                    <a href="#" @click.prevent="activePage = 'program'" class="bg-teal-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-teal-600 transition">探索我們的計畫</a>
+                </div>
+            </section>
+
+            <!-- Mission Section -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">我們的使命</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600 text-lg">
+                        透過提供涵蓋專業技能培訓、商業輔導、市場通路與社群支持的全方位生態系統，賦權新住民，使其能夠成功開創根植於自身文化傳統與嘉義獨特風土的多元化事業。
+                    </p>
+                </div>
+            </section>
+
+            <!-- 4-Stage Path Section -->
+            <section class="py-20 bg-teal-50">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">創業四階段路徑圖</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                            <div class="bg-teal-100 text-teal-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold">1</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">招募與創意發想</h3>
+                            <p class="text-gray-600">將模糊的文化技藝轉化為清晰的商業概念，並結合嘉義在地特色。</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                            <div class="bg-teal-100 text-teal-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold">2</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">技能與商業培訓</h3>
+                            <p class="text-gray-600">提供法規、財務、市場行銷及資金申請等全方位核心課程。</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                            <div class="bg-teal-100 text-teal-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold">3</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">工坊進駐與上市</h3>
+                            <p class="text-gray-600">進駐共享工作坊，優化產品，並在附設展售店進行試營運。</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                            <div class="bg-teal-100 text-teal-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold">4</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">市場加速與畢業</h3>
+                            <p class="text-gray-600">拓展銷售通路，獲得持續性輔導，並成為校友網絡的一員。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Themes Section -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">一方嘉藝，一世界風華：十大創業主題</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Theme Card -->
+                        <div class="rounded-lg shadow-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/ef4444/ef4444" alt="跨文化工藝坊" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-2">跨文化工藝坊</h3>
+                                <p class="text-gray-700">融合越南竹編、印尼蠟染等技法與嘉義在地材料，開設工藝品創作教學。</p>
+                            </div>
+                        </div>
+                        <!-- Theme Card -->
+                        <div class="rounded-lg shadow-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/3b82f6/3b82f6" alt="多語文化導覽" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-2">多語文化導覽</h3>
+                                <p class="text-gray-700">利用語言優勢，為國際旅客提供阿里山、故宮南院等深度在地文化導覽。</p>
+                            </div>
+                        </div>
+                        <!-- Theme Card -->
+                        <div class="rounded-lg shadow-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/ec4899/ec4899" alt="新住民美學沙龍" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-2">新住民美學沙龍</h3>
+                                <p class="text-gray-700">提供融合母國美學的特色新娘秘書、宴會造型或個人化妝教學服務。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-12">
+                        <a href="#" @click.prevent="activePage = 'themes'" class="text-teal-600 font-semibold hover:underline">查看所有創業主題 &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Us Page -->
+        <div x-show="activePage === 'about'" x-cloak class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">關於我們</h1>
+                
+                <!-- Tab Navigation -->
+                <div x-data="{ activeTab: 'vision' }" class="max-w-4xl mx-auto">
+                    <div class="border-b border-gray-200 mb-8">
+                        <nav class="flex justify-center -mb-px space-x-8">
+                            <button @click="activeTab = 'vision'" :class="activeTab === 'vision' ? 'tab-active' : 'tab-inactive'" class="py-4 px-1 inline-flex items-center text-sm font-medium">願景與使命</button>
+                            <button @click="activeTab = 'partners'" :class="activeTab === 'partners' ? 'tab-active' : 'tab-inactive'" class="py-4 px-1 inline-flex items-center text-sm font-medium">合作夥伴</button>
+                            <button @click="activeTab = 'location'" :class="activeTab === 'location' ? 'tab-active' : 'tab-inactive'" class="py-4 px-1 inline-flex items-center text-sm font-medium">我們的據點</button>
+                            <button @click="activeTab = 'mentors'" :class="activeTab === 'mentors' ? 'tab-active' : 'tab-inactive'" class="py-4 px-1 inline-flex items-center text-sm font-medium">導師團隊</button>
+                        </nav>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div x-show="activeTab === 'vision'">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">一個融合文化傳承與移民創新的中心</h2>
+                        <p class="text-gray-600 mb-4">本計畫命名為「新嘉人創業培力站」。此命名蘊含多層次的策略意涵：「嘉人」既點明了基地位於嘉義，也溫暖地擁抱新住民，視其為「嘉義的一份子」與「家裡的人」；「培力站」則明確點出本中心的核心功能——「培育」與「賦權」。</p>
+                        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-2">願景宣言</h3>
+                        <p class="text-gray-600 mb-4">成為嘉義縣新住民創業家的首選育成平台，將其豐富的文化遺產與多元技能轉化為可持續的商業模式，從而豐富嘉義的在地經濟與文化景觀。</p>
+                        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-2">使命宣言</h3>
+                        <p class="text-gray-600">透過提供涵蓋專業技能培訓、商業輔導、市場通路與社群支持的全方位生態系統，賦權新住民，使其能夠成功開創根植於自身文化傳統與嘉義獨特風土的多元化事業。</p>
+                    </div>
+                    <div x-show="activeTab === 'partners'">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">目的明確的夥伴關係</h2>
+                        <p class="text-gray-600 mb-6">本合作案的成功基石，在於兩大協會獨特且互補的資源整合。新產協提供了計畫的「靈魂」——創業者、文化產品、真實故事。而嘉義飛雁則提供了計畫的「骨架」——正規的商業結構、對接主流權力網絡的管道。</p>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="bg-gray-100 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">台灣新住民產業協會 (新產協)</h3>
+                                <p class="text-gray-700">核心優勢在於深厚的社群信任與文化理解力，以及經過驗證的草根輔導模式。由張艷君理事長領導，在廣大新住民社群中建立了無可比擬的信任網絡。</p>
+                            </div>
+                            <div class="bg-teal-50 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold text-teal-800 mb-2">社團法人嘉義縣飛雁創業育成協會 (嘉義飛雁)</h3>
+                                <p class="text-gray-700">核心優勢在於正規化的育成專業，擁有成熟的商業培訓、課程設計、政府資源對接等知識體系與操作經驗。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div x-show="activeTab === 'location'">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">錨定於歷史之中：水道頭文創聚落</h2>
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <p class="text-gray-600 mb-4">選擇「嘉藝點水道頭文創聚落」作為基地，不僅是選擇一個地點，更是選擇一項戰略資產。這裡已有多家業者進駐，形成群聚效應。</p>
+                                <p class="text-gray-600">聚落以其建於1933年的標誌性水塔和日式宿舍群為特色，本身就是一個充滿故事的場域，為承載文化故事的產品提供了絕佳的展演舞台。</p>
+                            </div>
+                            <img src="https://placehold.co/600x400/a16207/a16207" alt="水道頭文創聚落" class="rounded-lg shadow-md">
+                        </div>
+                    </div>
+                    <div x-show="activeTab === 'mentors'">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">導師的圓桌：三層式支持系統</h2>
+                        <p class="text-gray-600 mb-6">本計畫將建立一個三層式的導師支持系統，為創業者提供全方位的指導。</p>
+                        <div class="space-y-6">
+                            <div class="p-4 bg-gray-100 rounded-lg">
+                                <h3 class="font-bold text-lg">同儕導師 (Peer Mentors)</h3>
+                                <p class="text-gray-700">由計畫的畢業學長姐及經驗豐富的社群領袖擔任，提供最貼近需求的實戰經驗與情感支持。</p>
+                            </div>
+                            <div class="p-4 bg-gray-100 rounded-lg">
+                                <h3 class="font-bold text-lg">商業導師 (Business Mentors)</h3>
+                                <p class="text-gray-700">由社團法人嘉義縣飛雁創業育成協會的資深會員與嘉義大學創新育成中心的專家組成，提供財務、法規等專業指導。</p>
+                            </div>
+                            <div class="p-4 bg-gray-100 rounded-lg">
+                                <h3 class="font-bold text-lg">產業導師 (Industry Mentors)</h3>
+                                <p class="text-gray-700">邀請嘉義地區成功的企業家、工藝家、旅遊業者等，提供市場洞察與通路對接。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Program Page -->
+        <div x-show="activePage === 'program'" x-cloak class="py-20 bg-teal-50">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">育成計畫：從文化技藝到市場化的旅程</h1>
+                <div class="max-w-4xl mx-auto">
+                    <!-- Stage 1 -->
+                    <div class="flex mb-12">
+                        <div class="flex flex-col items-center mr-6">
+                            <div class="w-12 h-12 bg-teal-500 text-white rounded-full flex items-center justify-center text-xl font-bold">1</div>
+                            <div class="w-1 bg-gray-300 flex-grow"></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md w-full">
+                            <h2 class="text-2xl font-bold text-teal-700 mb-2">第一階段：招募與創意發想 (第1-2個月)</h2>
+                            <p class="text-gray-600">透過新產協網絡及家庭服務中心等管道廣泛招募，並舉辦創意工作坊，引導學員將母國文化元素與嘉義在地特色結合，形成清晰的商業概念。</p>
+                        </div>
+                    </div>
+                    <!-- Stage 2 -->
+                    <div class="flex mb-12">
+                        <div class="flex flex-col items-center mr-6">
+                            <div class="w-12 h-12 bg-teal-500 text-white rounded-full flex items-center justify-center text-xl font-bold">2</div>
+                            <div class="w-1 bg-gray-300 flex-grow"></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md w-full">
+                            <h2 class="text-2xl font-bold text-teal-700 mb-2">第二階段：技能與商業培訓 (第3-6個月)</h2>
+                            <p class="text-gray-600 mb-4">與社團法人嘉義縣飛雁創業育成協會及嘉義大學合作，開設專業課程模組，包括：</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>法規與實務：商業登記、智財權、產品標示法規等。</li>
+                                <li>商業與財務知識：成本計算、定價、基礎會計、商業計畫書撰寫。</li>
+                                <li>市場行銷與品牌建立：數位行銷、品牌故事塑造、包裝設計。</li>
+                                <li>資金申請實務：輔導申請青創補助及鳳凰貸款等資源。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Stage 3 -->
+                    <div class="flex mb-12">
+                        <div class="flex flex-col items-center mr-6">
+                            <div class="w-12 h-12 bg-teal-500 text-white rounded-full flex items-center justify-center text-xl font-bold">3</div>
+                            <div class="w-1 bg-gray-300 flex-grow"></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md w-full">
+                            <h2 class="text-2xl font-bold text-teal-700 mb-2">第三階段：工坊進駐與產品/服務上市 (第7-12個月)</h2>
+                            <p class="text-gray-600">學員正式進駐共享工作坊，在導師指導下優化產品與流程。完成的產品或服務將在站點附設的展售店進行軟啟動(Soft Launch)，收集真實顧客回饋，測試市場反應。</p>
+                        </div>
+                    </div>
+                    <!-- Stage 4 -->
+                    <div class="flex">
+                        <div class="flex flex-col items-center mr-6">
+                            <div class="w-12 h-12 bg-teal-500 text-white rounded-full flex items-center justify-center text-xl font-bold">4</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md w-full">
+                            <h2 class="text-2xl font-bold text-teal-700 mb-2">第四階段：市場加速與畢業 (第13-18個月)</h2>
+                            <p class="text-gray-600">協助畢業學員拓展銷售通路，如在地市集、電商平台等。創業者正式成立獨立事業，並成為校友網絡成員，未來可回饋社群擔任同儕導師。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Themes Page -->
+        <div x-show="activePage === 'themes'" x-cloak class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl font-bold text-center text-gray-800 mb-4">十大創業主題構想</h1>
+                <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">每一個構想都巧妙地融合了新住民的母國文化與嘉義縣獨特的文化、產業與自然資源，將「跨文化融合創新」作為核心競爭優勢。</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Theme cards dynamically generated -->
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">1. 跨文化工藝坊</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>開設融合母國傳統技法（越南竹編、印尼蠟染）與嘉義在地材料（竹材、植物染料）的工藝品創作與教學工作坊。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>文創愛好者、手作體驗遊客。</p>
+                    </div>
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">2. 多語文化導覽</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>利用語言優勢，為母國來台旅客或對東南亞文化有興趣的國人，提供小眾、深度的在地文化生態導覽服務。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>國際觀光客、深度旅遊愛好者。</p>
+                    </div>
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">3. 新住民美學沙龍</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>成立個人造型工作室，提供融合母國美學的特色新娘秘書、宴會造型或個人化妝教學服務。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>年輕族群、婚慶市場。</p>
+                    </div>
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">4. 數位故事自媒體</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>經營YouTube頻道、Podcast或部落格，分享在嘉義的生活、創業故事與文化觀察，透過流量或業配獲利。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>對跨文化、地方創生議題感興趣的網路受眾。</p>
+                    </div>
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">5. 融合風味醬料</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>承襲張艷君理事長的成功經驗，開發一系列使用朴子有機黃豆、黑豆的手工辣油與風味醬料。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>美食電商、在地伴手禮市場。</p>
+                    </div>
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">6. 親子文化共學</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>設計並開設親子共學課程，帶領新住民二代及台灣本地孩童體驗母國文化（童謠、繪本、遊戲），促進文化認同。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>親子家庭、幼兒園。</p>
+                    </div>
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">7. 創意布袋戲工坊</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>結合新住民母國的故事或視覺元素，設計創新的Q版布袋戲偶或DIY材料包，並開設體驗工作坊。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>親子遊客、學校團體。</p>
+                    </div>
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">8. 在地特色選物電商</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>建立線上選物平台，將嘉義好物行銷給海外親友社群，或引進母國特色商品。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>海內外新住民社群、對異國商品有興趣的消費者。</p>
+                    </div>
+                    <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">9. 療癒手作體驗</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>開發結合母國傳統療癒智慧（泰式草藥球）與嘉義在地植物的手作體驗課程（香氛蠟燭、防蚊包）。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>追求身心靈健康的都會女性、觀光客。</p>
+                    </div>
+                     <div class="border rounded-lg p-6 shadow-sm hover:shadow-lg transition">
+                        <h3 class="font-bold text-xl text-teal-700 mb-2">10. 交趾陶新彩</h3>
+                        <p class="text-gray-600"><strong>概念：</strong>與在地交趾陶師傅合作，開發融合東南亞文化元素的交趾陶文創商品，或提供彩繪體驗課程。</p>
+                        <p class="text-gray-600 mt-2"><strong>目標市場：</strong>觀光客、藝術收藏家。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div x-show="activePage === 'contact'" x-cloak class="py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">聯絡我們 & 加入我們</h1>
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Contact Form -->
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">成為創業者或合作夥伴</h2>
+                        <p class="text-gray-600 mb-6">無論您是懷有創業夢想的新住民，或是希望支持我們計畫的個人或單位，都歡迎您與我們聯繫！</p>
+                        <form action="#" method="POST">
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 font-medium mb-2">姓名</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 font-medium mb-2">電子郵件</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="subject" class="block text-gray-700 font-medium mb-2">主旨</label>
+                                <select id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option>我想申請成為創業者</option>
+                                    <option>我想成為合作夥伴</option>
+                                    <option>我想成為導師</option>
+                                    <option>其他問題</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 font-medium mb-2">您的訊息</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-teal-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-600 transition">送出訊息</button>
+                        </form>
+                    </div>
+                    <!-- Contact Info & Map -->
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">我們的據點</h2>
+                        <div class="space-y-4 text-gray-700">
+                            <p class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-teal-600 mr-3 mt-1 flex-shrink-0"><path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 005.16-4.212c1.51-1.848 2.292-4.212 2.292-6.541C20 6.078 16.418 2.5 12 2.5S4 6.078 4 10.5c0 2.328.782 4.693 2.292 6.541a16.975 16.975 0 005.16 4.212zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" /></svg>
+                                <span><strong>地點：</strong> 嘉義縣朴子市 嘉藝點水道頭文創聚落</span>
+                            </p>
+                            <p class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-teal-600 mr-3 flex-shrink-0"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" /><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" /></svg>
+                                <span><strong>電子郵件：</strong> contact@newchiayiren.com.tw (範例)</span>
+                            </p>
+                            <p class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-teal-600 mr-3 flex-shrink-0"><path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.279-.087.431l4.287 7.427c.077.152.25.184.431.087l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z" clip-rule="evenodd" /></svg>
+                                <span><strong>聯絡電話：</strong> (05) 123-4567 (範例)</span>
+                            </p>
+                        </div>
+                        <div class="mt-8 h-64 md:h-80 rounded-lg overflow-hidden">
+                           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3663.805234415893!2d120.24037567605969!3d23.46743997871696!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346c178a91136891%3A0x611244f842d7945f!2z5ZyL6Iul6Ieq5rC46YGT5aGU5pa55YmN5Y-k6YGT6YSj6YGU!5e0!3m2!1szh-TW!2stw!4v1722916694380!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">新嘉人創業培力站</h3>
+                    <p class="text-gray-400">一個融合文化傳承與移民創新的中心，賦權新住民，共創嘉義新風貌。</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">快速連結</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" @click.prevent="activePage = 'about'" class="text-gray-400 hover:text-white">關於我們</a></li>
+                        <li><a href="#" @click.prevent="activePage = 'program'" class="text-gray-400 hover:text-white">育成計畫</a></li>
+                        <li><a href="#" @click.prevent="activePage = 'themes'" class="text-gray-400 hover:text-white">創業主題</a></li>
+                        <li><a href="#" @click.prevent="activePage = 'contact'" class="text-gray-400 hover:text-white">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">合作夥伴</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>台灣新住民產業協會</li>
+                        <li>社團法人嘉義縣飛雁創業育成協會</li>
+                        <li>國立嘉義大學</li>
+                        <li>嘉藝點水道頭文創聚落</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500">
+                <p>&copy; <span id="copyright-year">2025</span> 新嘉人創業培力站. All Rights Reserved. 網站由 Gemini 製作。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 自動更新頁尾的年份
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
